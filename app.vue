@@ -13,11 +13,15 @@
   // console.log(await useFetch('/api/gettable'));
   let test1 = await useFetch('/api/gettable')
   let clock = await useFetch('/api/serverClock')
+  let {clock2} = await useFetch('/api/serverClock')
   onMounted(()=> {
     console.log('client', test1.data.value);
     console.log('clock', clock);
     console.log('clock', clock.data);
     console.log('clock', clock.data.value);
+    console.log('clock2', clock2);
+    console.log('clock2', clock2.data);
+    console.log('clock2', clock2.data.value);
 
   })
 
