@@ -25,8 +25,8 @@ const scrapeInHours = '18'    // format as 00-23
 const scrapeInMinutes = '30'  // format as MM. multiple of 10 only i.e: 00, 10, 20, 30, 40, 50
 
 setInterval(()=> {
-    // let timedate = recalibrateClockForMsiaOfficeHours()           
-    let timedate = new Date()           
+    let timedate = recalibrateClockForMsiaOfficeHours()           
+    // let timedate = new Date()           
     let hour = timedate.getHours().toString().padStart(2, 0)
     let minute = timedate.getMinutes().toString().padStart(2, 0)
     if(isWeekendOrPH(timedate)) return
@@ -101,11 +101,11 @@ function set2checkScrapeSchedule(hr, min) {
         hr=='20' && min=='00' ||
         hr=='21' && min=='00' ||
         hr=='22' && min=='00' ||
-        hr=='05' && min=='54' ||
-        hr=='05' && min=='55' ||
-        hr=='05' && min=='54' ||
-        hr=='05' && min=='55' ||
-        hr=='05' && min=='56' 
+        hr=='06' && min=='00' ||
+        hr=='06' && min=='01' ||
+        hr=='06' && min=='02' ||
+        hr=='06' && min=='03' ||
+        hr=='06' && min=='04' 
     ) {
         console.log('returning true');
         return true
@@ -118,6 +118,7 @@ function set2checkScrapeSchedule(hr, min) {
 }
 function set2scrapeTheWebOnce() {
     if(shouldScrape2) {
+        console.log('scraping in progress');
         getRawData()
         shouldScrape2 = false
     }
