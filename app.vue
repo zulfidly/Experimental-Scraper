@@ -17,6 +17,7 @@
     console.log('client', test1.data.value);
     console.log('clock', clock);
     console.log('clock', clock.data);
+    console.log('clock', clock.data.value);
 
   })
 

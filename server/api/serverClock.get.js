@@ -15,7 +15,7 @@ export default defineEventHandler(async(event) => {
     let obj = {
         "serverUTC": serverUTC_full,
         "serverUTC_ms": serverDateNow,
-        "offsetTime_mins" : serverUTC_full.getTimezoneOffset()
+        "offsetTime_mins" : offsetTimeinMins
     }
-    return {obj}
+    return obj
 }) 
