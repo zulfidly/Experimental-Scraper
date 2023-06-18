@@ -15,7 +15,7 @@
   let clock = await useFetch('/api/serverClock')
   onMounted(()=> {
     console.log('client', test1.data.value);
-    console.log('clock', clock);
+    console.log('clock', clock.data.value);
 
   })
 

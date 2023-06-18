@@ -1,9 +1,7 @@
 export default defineEventHandler(async(event) => {
     let serverUTC_full = new Date()
     let serverDateNow = Date.now()
-    let serverLocalMS = serverDateNow + serverUTC_full.getTimezoneOffset()
-    let offsetmin = serverUTC_full.getTimezoneOffset()
-    let offsetms = offsetmin * 60 * 1000 * (1)
+    let offsetTimeinMins = serverUTC_full.getTimezoneOffset()
 
     let serverLocal = new Intl.DateTimeFormat(
         'en-GB',
@@ -16,8 +14,8 @@ export default defineEventHandler(async(event) => {
     // console.log('server Clock =', c);       // getHours() returns (0-23)
     let obj = {
         "serverUTC": serverUTC_full,
-        "serverLocal": serverLocal,
-        "offset" : serverUTC_full.getTimezoneOffset()
+        "serverUTC_ms": serverDateNow,
+        "offsetTime_mins" : serverUTC_full.getTimezoneOffset()
     }
     return {obj}
 }) 
