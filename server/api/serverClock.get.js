@@ -20,23 +20,24 @@ const phSplit = publicHols.map((x)=> {
 // for (const [key, val] of Object.entries(publicHols)) {
 //     console.log(key , val);
 // }
-const cycle = 1000 * 60     // in ms, range: 1000~60000 (1-60 seconds)
+const cycle = 1000 * 10     // in ms, range: 1000~60000 (1-60 seconds)
 const scrapeInHours = '18'    // format as 00-23
 const scrapeInMinutes = '30'  // format as MM. multiple of 10 only i.e: 00, 10, 20, 30, 40, 50
 
 setInterval(()=> {
-    let timedate = recalibrateClockForMsiaOfficeHours()           
+    // let timedate = recalibrateClockForMsiaOfficeHours()           
+    let timedate = new Date()           
+    let hour = timedate.getHours().toString().padStart(2, 0)
+    let minute = timedate.getMinutes().toString().padStart(2, 0)
     if(isWeekendOrPH(timedate)) return
     if(checkScrapeSchedule(timedate)) scrapeTheWebOnce()
-    if(set2checkScrapeSchedule(timedate)) set2scrapeTheWebOnce()
+    if(set2checkScrapeSchedule(hour, minute)) set2scrapeTheWebOnce()
     let day = days[timedate.getDay()]                // Mon - Sun
     let date = timedate.getDate().toString().padStart(2, 0)
     let month = (timedate.getMonth() + 1).toString().padStart(2, 0)
     let year = timedate.getFullYear().toString().padStart(2, 0)
-    let hour = timedate.getHours().toString().padStart(2, 0)
-    let minute = timedate.getMinutes().toString().padStart(2, 0)
     let second = timedate.getSeconds().toString().padStart(2, 0)
-    // console.log(day, ':', date +'-'+ month +'-'+ year, '  > Time :', hour +':'+ minute +':'+ second, timedate );   
+    // console.log(day, ':', date +'-'+ month +'-'+ year, '  > Time :', hour +':'+ minute +':'+ second, '|', timedate );   
 }, cycle)
 
 function recalibrateClockForMsiaOfficeHours() {
@@ -71,9 +72,10 @@ function scrapeTheWebOnce() {
 }
 
 let shouldScrape2 = true
-function set2checkScrapeSchedule(cvb) {
-    let hr = cvb.getHours().toString().padStart(2, 0)
-    let min = cvb.getMinutes().toString().padStart(2, 0)
+function set2checkScrapeSchedule(hr, min) {
+    // let hr = cvb.getHours().toString().padStart(2, 0)
+    // let min = cvb.getMinutes().toString().padStart(2, 0)
+    console.log(hr, min);
 
     if(
         hr=='00' && min=='00' ||
@@ -99,16 +101,18 @@ function set2checkScrapeSchedule(cvb) {
         hr=='20' && min=='00' ||
         hr=='21' && min=='00' ||
         hr=='22' && min=='00' ||
-        hr=='05' && min=='23' ||
-        hr=='05' && min=='24' ||
-        hr=='05' && min=='25' ||
-        hr=='05' && min=='26' ||
-        hr=='05' && min=='27' 
+        hr=='05' && min=='54' ||
+        hr=='05' && min=='55' ||
+        hr=='05' && min=='54' ||
+        hr=='05' && min=='55' ||
+        hr=='05' && min=='56' 
     ) {
+        console.log('returning true');
         return true
     }
     else {
         shouldScrape2 = true
+        console.log('returning false');
         return false
     }
 }
