@@ -7,6 +7,7 @@ export default defineEventHandler(async(event) => {
     let clock = {
         "UTC": new Date(),
         "Day": days[new Date().getDay()],
+        "calibrated": recalibrateClockForMsiaOfficeHours(),
         "UTC_ms": Date.now(),
         "offset" : new Date().getTimezoneOffset()
     }
@@ -19,12 +20,12 @@ const phSplit = publicHols.map((x)=> {
 // for (const [key, val] of Object.entries(publicHols)) {
 //     console.log(key , val);
 // }
-const cycle = 5000      // in ms, range: 1000~60000 (1-60 seconds)
+const cycle = 1000 * 5     // in ms, range: 1000~60000 (1-60 seconds)
 const scrapeInHours = '18'    // format as 00-23
 const scrapeInMinutes = '30'  // format as MM. multiple of 10 only i.e: 00, 10, 20, 30, 40, 50
 
 setInterval(()=> {
-    let timedate = new Date()           
+    let timedate = recalibrateClockForMsiaOfficeHours()           
     if(isWeekendOrPH(timedate)) return
     if(checkScrapeSchedule(timedate)) scrapeTheWebOnce()
     if(set2checkScrapeSchedule(timedate)) set2scrapeTheWebOnce()
@@ -35,8 +36,17 @@ setInterval(()=> {
     let hour = timedate.getHours().toString().padStart(2, 0)
     let minute = timedate.getMinutes().toString().padStart(2, 0)
     let second = timedate.getSeconds().toString().padStart(2, 0)
-    console.log(day, ':', date +'-'+ month +'-'+ year, '  > Time :', hour +':'+ minute +':'+ second );   
+    // console.log(day, ':', date +'-'+ month +'-'+ year, '  > Time :', hour +':'+ minute +':'+ second, timedate );   
 }, cycle)
+
+function recalibrateClockForMsiaOfficeHours() {
+    let servCl = Date.now()
+    // console.log(new Date(servCl));
+    let offset = 480 * 60 * 1000            // offset is -480 minutes against UTC
+    let newCl = servCl + offset
+    console.log('newCl:', new Date(newCl));
+    return new Date(newCl)
+}
 
 let shouldScrape = true
 function checkScrapeSchedule(cvb) {
