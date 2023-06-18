@@ -18,7 +18,7 @@
     console.log('clock', clock_ph.data._rawValue.clock);
     console.log('PH', clock_ph.data._rawValue.publicHols);
     clockServerRef.value = clock_ph.data._rawValue.clock
-    clockCalibratedForClient.value = clock_ph.data._rawValue.clock.clientCl
+    clockCalibratedForClient.value = clock_ph.data._rawValue.clock.calibrated
   })
 
 </script>

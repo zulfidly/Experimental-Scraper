@@ -20,7 +20,7 @@ const phSplit = publicHols.map((x)=> {
 // for (const [key, val] of Object.entries(publicHols)) {
 //     console.log(key , val);
 // }
-const cycle = 1000 * 5     // in ms, range: 1000~60000 (1-60 seconds)
+const cycle = 1000 * 10     // in ms, range: 1000~60000 (1-60 seconds)
 const scrapeInHours = '18'    // format as 00-23
 const scrapeInMinutes = '30'  // format as MM. multiple of 10 only i.e: 00, 10, 20, 30, 40, 50
 
