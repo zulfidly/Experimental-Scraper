@@ -99,11 +99,11 @@ function set2checkScrapeSchedule(cvb) {
         hr=='20' && min=='00' ||
         hr=='21' && min=='00' ||
         hr=='22' && min=='00' ||
-        hr=='05' && min=='20' ||
-        hr=='05' && min=='21' ||
-        hr=='05' && min=='22' ||
         hr=='05' && min=='23' ||
         hr=='05' && min=='24' ||
+        hr=='05' && min=='25' ||
+        hr=='05' && min=='26' ||
+        hr=='05' && min=='27' 
     ) {
         return true
     }
