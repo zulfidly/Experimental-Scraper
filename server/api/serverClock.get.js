@@ -20,23 +20,23 @@ const phSplit = publicHols.map((x)=> {
 // for (const [key, val] of Object.entries(publicHols)) {
 //     console.log(key , val);
 // }
-const cycle = 1000 * 10     // in ms, range: 1000~60000 (1-60 seconds)
+const cycle = 1000 * 20     // in ms, range: 1000~60000 (1-60 seconds)
 const scrapeInHours = '18'    // format as 00-23
 const scrapeInMinutes = '30'  // format as MM. multiple of 10 only i.e: 00, 10, 20, 30, 40, 50
 
 setInterval(()=> {
-    let timedate = recalibrateClockForMsiaOfficeHours()           
-    // let timedate = new Date()           
+    // let timedate = recalibrateClockForMsiaOfficeHours()           
+    let timedate = new Date()           
     let hour = timedate.getHours().toString().padStart(2, 0)
     let minute = timedate.getMinutes().toString().padStart(2, 0)
     if(isWeekendOrPH(timedate)) return
     if(checkScrapeSchedule(timedate)) scrapeTheWebOnce()
     if(set2checkScrapeSchedule(hour, minute)) set2scrapeTheWebOnce()
-    let day = days[timedate.getDay()]                // Mon - Sun
-    let date = timedate.getDate().toString().padStart(2, 0)
-    let month = (timedate.getMonth() + 1).toString().padStart(2, 0)
-    let year = timedate.getFullYear().toString().padStart(2, 0)
-    let second = timedate.getSeconds().toString().padStart(2, 0)
+    // let day = days[timedate.getDay()]                // Mon - Sun
+    // let date = timedate.getDate().toString().padStart(2, 0)
+    // let month = (timedate.getMonth() + 1).toString().padStart(2, 0)
+    // let year = timedate.getFullYear().toString().padStart(2, 0)
+    // let second = timedate.getSeconds().toString().padStart(2, 0)
     // console.log(day, ':', date +'-'+ month +'-'+ year, '  > Time :', hour +':'+ minute +':'+ second, '|', timedate );   
 }, cycle)
 
@@ -75,7 +75,7 @@ let shouldScrape2 = true
 function set2checkScrapeSchedule(hr, min) {
     // let hr = cvb.getHours().toString().padStart(2, 0)
     // let min = cvb.getMinutes().toString().padStart(2, 0)
-    console.log(hr, min);
+    // console.log(hr, min, shouldScrape2);
 
     if(
         hr=='00' && min=='00' ||
@@ -101,11 +101,11 @@ function set2checkScrapeSchedule(hr, min) {
         hr=='20' && min=='00' ||
         hr=='21' && min=='00' ||
         hr=='22' && min=='00' ||
-        hr=='06' && min=='09' ||
-        hr=='06' && min=='10' ||
-        hr=='06' && min=='11' ||
-        hr=='06' && min=='12' ||
-        hr=='06' && min=='13' 
+        hr=='06' && min=='41' ||
+        hr=='06' && min=='43' ||
+        hr=='06' && min=='45' ||
+        hr=='06' && min=='47' ||
+        hr=='06' && min=='49' 
     ) {
         // console.log('returning true');
         return true

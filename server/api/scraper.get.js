@@ -6,7 +6,7 @@ const URL = "https://www.bursamalaysia.com/bm/trade/trading_resources/listing_di
 const days = ["Sun", "Mon", "Tue", "Wed", "Thurs", "Fri", "Sat"];
 
 export async function getRawData() {
-    return await fetch(URL)
+    return await fetch("https://www.bursamalaysia.com/bm/trade/trading_resources/listing_directory/company-profile?stock_code=1155")
        .then((response) => response.text())
        .then((data) => {
             let entry = {
