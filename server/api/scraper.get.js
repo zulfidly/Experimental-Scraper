@@ -3,69 +3,32 @@ var base = new Airtable({apiKey: process.env.AT_TOKEN}).base(process.env.AT_BASE
 
 const URL = "https://www.bursamalaysia.com/bm/trade/trading_resources/listing_directory/company-profile?stock_code=1155";
 // console.log('getRawData', getRawData(URL))
+const days = ["Sun", "Mon", "Tue", "Wed", "Thurs", "Fri", "Sat"];
 
-async function getRawData(URL) {
+export async function getRawData() {
     return await fetch(URL)
        .then((response) => response.text())
        .then((data) => {
             let entry = {
                 "fields": {
-                  "Date": getDate(),
-                  "Time": getServerClock(),
+                  "Date": getLocalDate(),
+                  "Day": days[new Date().getDay()],
+                  "Time(24hr)": getLocalTime(),
                   "PreviousClose": previousClose(data),
                   "LastDone": lastDone(data),
                   "Open": getOpen(data),
                   "High": getHigh(data),
                   "Low": getLow(data),
                   "JSON": undefined,
+                  "servClock": new Date(),
                 }
             } 
-            console.log('entrY :', entry);
-            validateEntryBeforeAddToTable(entry)
-            // setInterval(()=> addEntryToTable(entry), 60000)
-            // addEntryToTable(entry) 
+            entry.fields.JSON = JSON.stringify(entry)
+            // console.log('entrY :', entry);
+            addEntryToTable(entry) 
         })
        .catch((err)=> console.log(err))
 };
-function validateEntryBeforeAddToTable(q) {
-    if(
-        Number(q.fields.PreviousClose) &&
-        Number(q.fields.LastDone) &&
-        Number(q.fields.Open) &&
-        Number(q.fields.High) &&
-        Number(q.fields.Low)
-    ) {
-        // console.log('entry okayed for upload');
-        q.fields.JSON = JSON.stringify(q)
-        // console.log(q.fields.JSON);
-        if(isWeekend()) return
-        else  addEntryToTable(q)
-        console.log(q);
-    } else {
-        // console.log('bad entry data');
-        // setinterval until data is perfectly formed
-        let dummy = {
-            "fields": {
-                "Date": getDate(),
-                "Time": getServerClock(),
-                "PreviousClose": previousClose(q),
-                "LastDone": lastDone(q),
-                "Open": getOpen(q),
-                "High": getHigh(q),
-                "Low": getLow(q),
-                "JSON": JSON.stringify(q),
-            }
-        }
-        addEntryToTable(dummy)
-    }
-}
-
-function isWeekend() {
-    let d = new Date(Date.now())
-    let x = d.getDay()
-    if(x == 0 || x == 6) return true        // 0=sunday, 6=saturday
-    else return false
-}
 
 function getOpen(x) {
     let str = '<th scope="row">Open</th>'
@@ -153,18 +116,15 @@ function addEntryToTable(entry) {
     );
 }
 
-// getDate()
-// getServerClock()
-function getDate() {    // formatted as YYYY-MM-DD
+function getLocalDate() {    // formatted as YYYY-MM-DD
     let d = new Date(Date.now())
     let ts = d.getFullYear().toString() + '-' + (d.getMonth()+1).toString().padStart(2,0) + '-' + d.getDate().toString().padStart(2,0)
     console.log('timestamp :', ts);
     return ts 
 }
-function getServerClock() {
+function getLocalTime() {            // HH:MM in 24hours format
     let d = new Date(Date.now())
-    let sc = d.getHours().toString().padStart(2,0) + ':' + d.getMinutes().toString().padStart(2,0) 
-    console.log('server Clock =', sc);       // getHours() returns (0-23)
-    return sc
+    let hr = d.getHours().toString().padStart(2, 0)
+    let min = d.getMinutes().toString().padStart(2, 0)
+    return hr + ':' + min
 }
-

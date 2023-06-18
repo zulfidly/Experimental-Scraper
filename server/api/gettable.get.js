@@ -1,5 +1,4 @@
 import Airtable from 'airtable'
-
 export default defineEventHandler(async(event) => {
     // console.log('Obj :', await readTest());
     return await readTable1()
@@ -12,7 +11,7 @@ async function readTable1() {
             view: 'Grid view'
         }).firstPage(function(err, records) {
             if (err) { console.error(err)
-                resolve(err)
+                reject(err)
                 return;
             } else {
                 let temp = []
