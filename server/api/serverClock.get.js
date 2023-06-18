@@ -101,18 +101,18 @@ function set2checkScrapeSchedule(hr, min) {
         hr=='20' && min=='00' ||
         hr=='21' && min=='00' ||
         hr=='22' && min=='00' ||
-        hr=='06' && min=='00' ||
-        hr=='06' && min=='01' ||
-        hr=='06' && min=='02' ||
-        hr=='06' && min=='03' ||
-        hr=='06' && min=='04' 
+        hr=='06' && min=='09' ||
+        hr=='06' && min=='10' ||
+        hr=='06' && min=='11' ||
+        hr=='06' && min=='12' ||
+        hr=='06' && min=='13' 
     ) {
-        console.log('returning true');
+        // console.log('returning true');
         return true
     }
     else {
         shouldScrape2 = true
-        console.log('returning false');
+        // console.log('returning false');
         return false
     }
 }
