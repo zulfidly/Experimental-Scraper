@@ -26,7 +26,8 @@ const scrapeInMinutes = '30'  // format as MM. multiple of 10 only i.e: 00, 10, 
 
 setInterval(()=> {
     // let timedate = recalibrateClockForMsiaOfficeHours()           
-    let timedate = new Date()           
+    let timedate = new Date()    
+    console.log(timedate);       
     let hour = timedate.getHours().toString().padStart(2, 0)
     let minute = timedate.getMinutes().toString().padStart(2, 0)
     if(isWeekendOrPH(timedate)) return
@@ -101,11 +102,11 @@ function set2checkScrapeSchedule(hr, min) {
         hr=='20' && min=='00' ||
         hr=='21' && min=='00' ||
         hr=='22' && min=='00' ||
-        hr=='06' && min=='41' ||
-        hr=='06' && min=='43' ||
-        hr=='06' && min=='45' ||
-        hr=='06' && min=='47' ||
-        hr=='06' && min=='49' 
+        hr=='07' && min=='01' ||
+        hr=='07' && min=='03' ||
+        hr=='07' && min=='05' ||
+        hr=='07' && min=='07' ||
+        hr=='07' && min=='09' 
     ) {
         // console.log('returning true');
         return true
@@ -124,7 +125,8 @@ function set2scrapeTheWebOnce() {
     }
 }
 
-function isWeekendOrPH(tr) {
+function isWeekendOrPH() {
+    let tr = new Date()
     let dayCurr = tr.getDay().toString().padStart(2, 0)
     let dateCurr = tr.getDate().toString().padStart(2, 0)
     let monthCurr = (tr.getMonth() + 1).toString().padStart(2, 0)
