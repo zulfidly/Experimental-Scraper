@@ -4,9 +4,6 @@ var base = new Airtable({apiKey: process.env.AT_TOKEN}).base(process.env.AT_BASE
 const URL = "https://www.bursamalaysia.com/bm/trade/trading_resources/listing_directory/company-profile?stock_code=1155";
 // console.log('getRawData', getRawData(URL))
 
-
-
-
 async function getRawData(URL) {
     return await fetch(URL)
        .then((response) => response.text())
