@@ -11,6 +11,11 @@
 
 <script setup>
   // console.log(await useFetch('/api/gettable'));
-  let test1 = await useFetch('/api/gettable')
-  console.log('client', test1.data.value);
+  onMounted(()=> {
+    let test1 = useFetch('/api/gettable')
+    console.log('client', test1.data.value);
+
+    console.log(useFetch('/api/getClock'));
+  })
+
 </script>

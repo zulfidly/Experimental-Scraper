@@ -156,8 +156,8 @@ function addEntryToTable(entry) {
     );
 }
 
-getDate()
-getServerClock()
+// getDate()
+// getServerClock()
 function getDate() {    // formatted as YYYY-MM-DD
     let d = new Date(Date.now())
     let ts = d.getFullYear().toString() + '-' + (d.getMonth()+1).toString().padStart(2,0) + '-' + d.getDate().toString().padStart(2,0)
