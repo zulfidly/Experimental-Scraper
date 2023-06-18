@@ -65,6 +65,16 @@ function set2checkScrapeSchedule(cvb) {
     let min = cvb.getMinutes().toString().padStart(2, 0)
 
     if(
+        hr=='00' && min=='00' ||
+        hr=='01' && min=='00' ||
+        hr=='02' && min=='00' ||
+        hr=='03' && min=='00' ||
+        hr=='04' && min=='00' ||
+        hr=='05' && min=='00' ||
+        hr=='06' && min=='00' ||
+        hr=='07' && min=='00' ||
+        hr=='08' && min=='00' ||
+        hr=='09' && min=='00' ||
         hr=='10' && min=='00' ||
         hr=='11' && min=='00' ||
         hr=='12' && min=='00' ||
