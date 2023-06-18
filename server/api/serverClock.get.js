@@ -1,9 +1,12 @@
 import publicHols from './publicholiday.json'      // gazetted phSplit only
 import { getRawData } from './scraper.get.js'
+const months = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"];
+const days = ["Sun", "Mon", "Tue", "Wed", "Thurs", "Fri", "Sat"];
 
 export default defineEventHandler(async(event) => {
     let clock = {
         "UTC": new Date(),
+        "Day": days[new Date().getDay()],
         "UTC_ms": Date.now(),
         "offset" : new Date().getTimezoneOffset()
     }
@@ -16,8 +19,6 @@ const phSplit = publicHols.map((x)=> {
 // for (const [key, val] of Object.entries(publicHols)) {
 //     console.log(key , val);
 // }
-const months = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"];
-const days = ["Sun", "Mon", "Tue", "Wed", "Thurs", "Fri", "Sat"];
 const cycle = 5000      // in ms, range: 1000~60000 (1-60 seconds)
 const scrapeInHours = '18'    // format as 00-23
 const scrapeInMinutes = '30'  // format as MM. multiple of 10 only i.e: 00, 10, 20, 30, 40, 50
@@ -102,12 +103,6 @@ function set2scrapeTheWebOnce() {
         shouldScrape2 = false
     }
 }
-
-
-
-
-
-
 
 function isWeekendOrPH(tr) {
     let dayCurr = tr.getDay().toString().padStart(2, 0)
