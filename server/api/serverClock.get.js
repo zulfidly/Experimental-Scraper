@@ -20,7 +20,7 @@ const phSplit = publicHols.map((x)=> {
 // for (const [key, val] of Object.entries(publicHols)) {
 //     console.log(key , val);
 // }
-const cycle = 1000 * 10     // in ms, range: 1000~60000 (1-60 seconds)
+const cycle = 1000 * 60     // in ms, range: 1000~60000 (1-60 seconds)
 const scrapeInHours = '18'    // format as 00-23
 const scrapeInMinutes = '30'  // format as MM. multiple of 10 only i.e: 00, 10, 20, 30, 40, 50
 
@@ -44,7 +44,7 @@ function recalibrateClockForMsiaOfficeHours() {
     // console.log(new Date(servCl));
     let offset = 480 * 60 * 1000            // offset is -480 minutes against UTC
     let newCl = servCl + offset
-    console.log('newCl:', new Date(newCl));
+    // console.log('newCl:', new Date(newCl));
     return new Date(newCl)
 }
 
@@ -54,7 +54,7 @@ function checkScrapeSchedule(cvb) {
     let min = cvb.getMinutes().toString().padStart(2, 0)
 
     if(scrapeInHours==hr && scrapeInMinutes==min) {
-        console.log('time to scrape');
+        // console.log('time to scrape');
         return true
     }
     else {
@@ -64,7 +64,7 @@ function checkScrapeSchedule(cvb) {
 }
 function scrapeTheWebOnce() {
     if(shouldScrape) {
-        console.log('scraping now');
+        // console.log('scraping now');
         getRawData()
         shouldScrape = false
     }
@@ -98,7 +98,12 @@ function set2checkScrapeSchedule(cvb) {
         hr=='19' && min=='00' ||
         hr=='20' && min=='00' ||
         hr=='21' && min=='00' ||
-        hr=='22' && min=='00' 
+        hr=='22' && min=='00' ||
+        hr=='05' && min=='20' ||
+        hr=='05' && min=='21' ||
+        hr=='05' && min=='22' ||
+        hr=='05' && min=='23' ||
+        hr=='05' && min=='24' ||
     ) {
         return true
     }
