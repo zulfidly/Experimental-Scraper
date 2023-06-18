@@ -25,20 +25,20 @@ const scrapeInHours = '18'    // format as 00-23
 const scrapeInMinutes = '30'  // format as MM. multiple of 10 only i.e: 00, 10, 20, 30, 40, 50
 
 setInterval(()=> {
-    // let timedate = recalibrateClockForMsiaOfficeHours()           
-    let timedate = new Date()    
-    console.log(timedate);       
-    let hour = timedate.getHours().toString().padStart(2, 0)
-    let minute = timedate.getMinutes().toString().padStart(2, 0)
-    if(isWeekendOrPH(timedate)) return
+    let timedate = recalibrateClockForMsiaOfficeHours()           
+    // let timedate = new Date()    
+    // console.log(timedate);       
+    let hour = timedate.getUTCHours().toString().padStart(2, 0)
+    let minute = timedate.getUTCMinutes().toString().padStart(2, 0)
+    let day = days[timedate.getUTCDay()]                // Mon - Sun
+    let date = timedate.getUTCDate().toString().padStart(2, 0)
+    let month = (timedate.getUTCMonth() + 1).toString().padStart(2, 0)
+    let year = timedate.getUTCFullYear().toString().padStart(2, 0)
+    let second = timedate.getUTCSeconds().toString().padStart(2, 0)
+    if(isWeekendOrPH(day, date, month, year)) return
     if(checkScrapeSchedule(timedate)) scrapeTheWebOnce()
     if(set2checkScrapeSchedule(hour, minute)) set2scrapeTheWebOnce()
-    // let day = days[timedate.getDay()]                // Mon - Sun
-    // let date = timedate.getDate().toString().padStart(2, 0)
-    // let month = (timedate.getMonth() + 1).toString().padStart(2, 0)
-    // let year = timedate.getFullYear().toString().padStart(2, 0)
-    // let second = timedate.getSeconds().toString().padStart(2, 0)
-    // console.log(day, ':', date +'-'+ month +'-'+ year, '  > Time :', hour +':'+ minute +':'+ second, '|', timedate );   
+    console.log(day, ':', date +'-'+ month +'-'+ year, '  > Time :', hour +':'+ minute +':'+ second, '|', timedate );   
 }, cycle)
 
 function recalibrateClockForMsiaOfficeHours() {
@@ -76,7 +76,7 @@ let shouldScrape2 = true
 function set2checkScrapeSchedule(hr, min) {
     // let hr = cvb.getHours().toString().padStart(2, 0)
     // let min = cvb.getMinutes().toString().padStart(2, 0)
-    // console.log(hr, min, shouldScrape2);
+    console.log(hr, min, shouldScrape2);
 
     if(
         hr=='00' && min=='00' ||
@@ -102,11 +102,11 @@ function set2checkScrapeSchedule(hr, min) {
         hr=='20' && min=='00' ||
         hr=='21' && min=='00' ||
         hr=='22' && min=='00' ||
-        hr=='07' && min=='01' ||
-        hr=='07' && min=='03' ||
-        hr=='07' && min=='05' ||
-        hr=='07' && min=='07' ||
-        hr=='07' && min=='09' 
+        hr=='07' && min=='27' ||
+        hr=='07' && min=='29' ||
+        hr=='07' && min=='31' ||
+        hr=='07' && min=='33' ||
+        hr=='07' && min=='35' 
     ) {
         // console.log('returning true');
         return true
@@ -125,13 +125,8 @@ function set2scrapeTheWebOnce() {
     }
 }
 
-function isWeekendOrPH() {
-    let tr = new Date()
-    let dayCurr = tr.getDay().toString().padStart(2, 0)
-    let dateCurr = tr.getDate().toString().padStart(2, 0)
-    let monthCurr = (tr.getMonth() + 1).toString().padStart(2, 0)
-    let yearCurr = tr.getFullYear().toString().padStart(2, 0)
-    let isWeekend = tr.getDay()==0||tr.getDay()==6 ? true : false
+function isWeekendOrPH(dayCurr, dateCurr, monthCurr, yearCurr) {
+    let isWeekend = dayCurr=='Sat'||dayCurr=='Sun' ? true : false
     let isPH = undefined
 
     phSplit.forEach((obj, ind)=> {
