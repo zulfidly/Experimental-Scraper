@@ -12,7 +12,7 @@
 <script setup>
   // console.log(await useFetch('/api/gettable'));
   let test1 = await useFetch('/api/gettable')
-  let clock = await useFetch('/api/getClock')
+  let clock = await useFetch('/api/serverClock')
   onMounted(()=> {
     console.log('client', test1.data.value);
     console.log('clock', clock);
