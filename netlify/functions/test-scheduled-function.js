@@ -12,8 +12,8 @@ const phSplit = publicHols.map((x)=> { return x.date.split("-") })
 
 const handler = async function(event, context) {
     console.log("Netlify scheduled function running");
-    console.log(phSplit);
-    runner()
+    // console.log(phSplit);
+    await runner()
     return { statusCode: 200 };
 };
 exports.handler = schedule("1/3 * * * *", handler);        //“At every 3th minute from 1 through 59.” https://crontab.guru/
@@ -150,7 +150,7 @@ function getLocalTime() {            // HH:MM in 24hours format
 /////////////////////////////////////////////////////////////////
 
 
-function runner() {
+async function runner() {
     let timedate = recalibrateClockForMsiaOfficeHours()           
     // let timedate = new Date()    
     let hour = timedate.getUTCHours().toString().padStart(2, 0)
@@ -162,7 +162,7 @@ function runner() {
     let second = timedate.getUTCSeconds().toString().padStart(2, 0)
     console.log(day, ':', date +'-'+ month +'-'+ year, '  > Time :', hour +':'+ minute +':'+ second, '|', timedate );   
     if(isWeekendOrPH(day, date, month, year)) return
-    getRawData()
+    await getRawData()
     // if(checkScrapeSchedule(timedate)) scrapeTheWebOnce()
 }
 

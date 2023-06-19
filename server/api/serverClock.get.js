@@ -12,3 +12,11 @@ export default defineEventHandler(async(event) => {
     return {clock, publicHols}
 }) 
 
+function recalibrateClockForMsiaOfficeHours() {
+    let servCl = Date.now()
+    // console.log(new Date(servCl));
+    let offset = 480 * 60 * 1000            // offset is -480 minutes against UTC
+    let newCl = servCl + offset
+    // console.log('newCl:', new Date(newCl));
+    return new Date(newCl)
+}
