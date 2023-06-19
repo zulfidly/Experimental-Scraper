@@ -16,7 +16,7 @@ export default defineEventHandler(async(event) => {
 
 const phSplit = publicHols.map((x)=> { return x.date.split("-") })
 
-const cycle = 1000 * 60     // in ms, range: 1000~60000 (1-60 seconds)
+const cycle = 1000 * 10     // in ms, range: 1000~60000 (1-60 seconds)
 const scrapeInHours = '18'    // format as 00-23
 const scrapeInMinutes = '30'  // format as MM. multiple of 10 only i.e: 00, 10, 20, 30, 40, 50
 
@@ -98,11 +98,11 @@ function set2checkScrapeSchedule(hr, min) {
         hr=='20' && min=='00' ||
         hr=='21' && min=='00' ||
         hr=='22' && min=='00' ||
-        hr=='16' && min=='51' ||
-        hr=='16' && min=='53' ||
-        hr=='16' && min=='55' ||
-        hr=='16' && min=='57' ||
-        hr=='16' && min=='59' 
+        hr=='17' && min=='21' ||
+        hr=='17' && min=='23' ||
+        hr=='17' && min=='25' ||
+        hr=='17' && min=='27' ||
+        hr=='17' && min=='29' 
     ) {
         // console.log('returning true');
         return true

@@ -37,7 +37,7 @@ function getOpen(x) {
     let end = start + 17
     let open = x.slice(start, end).trim()
     let openClean = open.replace(/[A-Z<>"='/]/ig,'').trim()
-    if(Number(openClean)) return openClean
+    if(Number(openClean)) return openClean.toString()
     else return 'invalid'
     // console.log('Open is :', open, open.length)
     //   console.log('OpenClean is :', openClean, openClean.length)
@@ -50,7 +50,7 @@ function lastDone(x) {
     let end = start + 10
     let lastDone = x.slice(start, end).trim()
     let lastDoneClean = lastDone.replace(/[A-Z<>"='/]/ig,'').trim()
-    if(Number(lastDoneClean)) return lastDoneClean
+    if(Number(lastDoneClean)) return lastDoneClean.toString()
     else {
         let str = '<span class="up"></span>'    // or use <span class="down"></span>
         let strLength = str.length
@@ -58,7 +58,8 @@ function lastDone(x) {
         let end = start + 10
         let lastDone = x.slice(start, end).trim()
         let lastDoneClean = lastDone.replace(/[A-Z<>"='/]/ig,'').trim()
-        return Number(lastDoneClean)||'invalid'
+        if(Number(lastDoneClean)) return lastDoneClean.toString()
+        else return 'invalid'
     }
 }
 
@@ -69,7 +70,7 @@ function previousClose(x) {
     let end = start + 11
     let prevClose = x.slice(start, end).trim()
     let prevCloseClean = prevClose.replace(/[A-Z<>"=/']/ig,'').trim()
-    if(Number(prevCloseClean)) return prevCloseClean
+    if(Number(prevCloseClean)) return prevCloseClean.toString()
     else return 'invalid'
     // console.log('PreviousClose is :', prevClose, prevClose.length)
     //   console.log('prevCloseClean is :', prevCloseClean, prevCloseClean.length);
@@ -82,7 +83,7 @@ function getHigh(x) {
     let end = start + 11
     let high = x.slice(start, end).trim()
     let highClean = high.replace(/[A-Z<>"=/']/ig,'').trim()
-    if(Number(highClean)) return highClean
+    if(Number(highClean)) return highClean.toString()
     else return 'invalid'
     // console.log('high is :', high, high.length)
     // console.log('highClean is :', highClean, highClean.length);
@@ -95,7 +96,7 @@ function getLow(x) {
     let end = start + 11
     let low = x.slice(start, end).trim()
     let lowClean = low.replace(/[A-Z<>"=/']/ig,'').trim()
-    if(Number(lowClean)) return lowClean
+    if(Number(lowClean)) return lowClean.toString()
     else return 'invalid'
     // console.log('low is :', low, low.length)
     // console.log('lowClean is :', lowClean, lowClean.length);
