@@ -16,7 +16,7 @@ export default defineEventHandler(async(event) => {
 
 const phSplit = publicHols.map((x)=> { return x.date.split("-") })
 
-const cycle = 1000 * 10     // in ms, range: 1000~60000 (1-60 seconds)
+const cycle = 1000 * 60     // in ms, range: 1000~60000 (1-60 seconds)
 const scrapeInHours = '18'    // format as 00-23
 const scrapeInMinutes = '30'  // format as MM. multiple of 10 only i.e: 00, 10, 20, 30, 40, 50
 
@@ -75,29 +75,6 @@ function set2checkScrapeSchedule(hr, min) {
     // let min = cvb.getMinutes().toString().padStart(2, 0)
     // console.log(hr, min, shouldScrape2);
     if(
-        hr=='00' && min=='00' ||
-        hr=='01' && min=='00' ||
-        hr=='02' && min=='00' ||
-        hr=='03' && min=='00' ||
-        hr=='04' && min=='00' ||
-        hr=='05' && min=='00' ||
-        hr=='06' && min=='00' ||
-        hr=='07' && min=='00' ||
-        hr=='08' && min=='00' ||
-        hr=='09' && min=='00' ||
-        hr=='10' && min=='00' ||
-        hr=='11' && min=='00' ||
-        hr=='12' && min=='00' ||
-        hr=='13' && min=='00' ||
-        hr=='14' && min=='00' ||
-        hr=='15' && min=='00' ||
-        hr=='16' && min=='00' ||
-        hr=='17' && min=='00' ||
-        hr=='18' && min=='00' ||
-        hr=='19' && min=='00' ||
-        hr=='20' && min=='00' ||
-        hr=='21' && min=='00' ||
-        hr=='22' && min=='00' ||
         hr=='17' && min=='21' ||
         hr=='17' && min=='23' ||
         hr=='17' && min=='25' ||
