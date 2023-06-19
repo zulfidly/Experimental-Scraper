@@ -1,49 +1,23 @@
-// YOUR_BASE_DIRECTORY/netlify/functions/test-scheduled-function.js
-// import { getRawData } from "../../server/api/scraper.get.js";
 import Airtable from 'airtable'
 import { schedule } from "@netlify/functions"
+import publicHols from '../../public/publicholiday.json'
 Airtable.configure({
     endpointUrl: 'https://api.airtable.com',
     apiKey: process.env.AT_TOKEN
 });
 var base = new Airtable.base(process.env.AT_BASE_ID);
 const days = ["Sun", "Mon", "Tue", "Wed", "Thurs", "Fri", "Sat"];
+const months = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"];
+const phSplit = publicHols.map((x)=> { return x.date.split("-") })
 
 const handler = async function(event, context) {
-    // console.log("Received event:", event, 'Context:', context);
-
     console.log("Netlify scheduled function running");
-    // getRawData()
-    await fetch(
-        "https://www.bursamalaysia.com/bm/trade/trading_resources/listing_directory/company-profile?stock_code=1155",
-        { method: 'post',})
-       .then((response) => response.text())
-       .then(async (data) => {
-            let entry = {
-                "fields": {
-                  "Date": getLocalDate(),
-                  "Day": days[new Date().getDay()],
-                  "Time(24hr)": getLocalTime(),
-                  "PreviousClose": previousClose(data),
-                  "LastDone": lastDone(data),
-                  "Open": getOpen(data),
-                  "High": getHigh(data),
-                  "Low": getLow(data),
-                  "servClock": new Date().toString(),
-                  "JSON": undefined,
-                }
-            } 
-            entry.fields.JSON = JSON.stringify(entry)
-            console.log('entrY :', entry);
-            await addEntryToTable(entry) 
-        })
-       .catch((err)=> console.log('fetchErroR:', err))
-    return {
-        statusCode: 200,
-    };
+    console.log(phSplit);
+    runner()
+    return { statusCode: 200 };
 };
-// exports.handler = schedule("@hourly", handler);          // “At minute 0 every hour” https://crontab.guru/
-exports.handler = schedule("1/3 * * * *", handler);        //“At every 3th minute from 1 through 59.”
+exports.handler = schedule("1/3 * * * *", handler);        //“At every 3th minute from 1 through 59.” https://crontab.guru/
+
 async function addEntryToTable(entry) {
     setTimeout(()=> {
         base(process.env.AT_TABLE1_ID)
@@ -66,7 +40,7 @@ async function addEntryToTable(entry) {
 async function getRawData() {
     return await fetch("https://www.bursamalaysia.com/bm/trade/trading_resources/listing_directory/company-profile?stock_code=1155")
        .then((response) => response.text())
-       .then((data) => {
+       .then(async(data) => {
             let entry = {
                 "fields": {
                   "Date": getLocalDate(),
@@ -83,7 +57,7 @@ async function getRawData() {
             } 
             entry.fields.JSON = JSON.stringify(entry)
             // console.log('entrY :', entry);
-            addEntryToTable(entry) 
+            await addEntryToTable(entry) 
         })
        .catch((err)=> console.log(err))
 };
@@ -160,10 +134,9 @@ function getLow(x) {
     // console.log('lowClean is :', lowClean, lowClean.length);
 }
 
-
 function getLocalDate() {    // formatted as YYYY-MM-DD
-    let d = new Date(Date.now())
-    let ts = d.getFullYear().toString() + '-' + (d.getMonth()+1).toString().padStart(2,0) + '-' + d.getDate().toString().padStart(2,0)
+    let d = new Date()
+    let ts = d.getUTCFullYear().toString() + '-' + (d.getUTCMonth()+1).toString().padStart(2,0) + '-' + d.getUTCDate().toString().padStart(2,0)
     // console.log('timestamp :', ts);
     return ts 
 }
@@ -174,7 +147,70 @@ function getLocalTime() {            // HH:MM in 24hours format
     return hr + ':' + min
 }
 
-    
+/////////////////////////////////////////////////////////////////
 
 
+function runner() {
+    let timedate = recalibrateClockForMsiaOfficeHours()           
+    // let timedate = new Date()    
+    let hour = timedate.getUTCHours().toString().padStart(2, 0)
+    let minute = timedate.getUTCMinutes().toString().padStart(2, 0)
+    let day = days[timedate.getUTCDay()]                // Mon - Sun
+    let date = timedate.getUTCDate().toString().padStart(2, 0)
+    let month = (timedate.getUTCMonth() + 1).toString().padStart(2, 0)
+    let year = timedate.getUTCFullYear().toString().padStart(2, 0)
+    let second = timedate.getUTCSeconds().toString().padStart(2, 0)
+    console.log(day, ':', date +'-'+ month +'-'+ year, '  > Time :', hour +':'+ minute +':'+ second, '|', timedate );   
+    if(isWeekendOrPH(day, date, month, year)) return
+    getRawData()
+    // if(checkScrapeSchedule(timedate)) scrapeTheWebOnce()
+}
 
+function recalibrateClockForMsiaOfficeHours() {
+    let servCl = Date.now()
+    // console.log(new Date(servCl));
+    let offset = 480 * 60 * 1000            // offset is -480 minutes against UTC
+    let newCl = servCl + offset
+    // console.log('newCl:', new Date(newCl));
+    return new Date(newCl)
+}
+
+// let shouldScrape = true
+// function checkScrapeSchedule(cvb) {
+//     let hr = cvb.getHours().toString().padStart(2, 0)
+//     let min = cvb.getMinutes().toString().padStart(2, 0)
+
+//     if(scrapeInHours==hr && scrapeInMinutes==min) {
+//         // console.log('time to scrape');
+//         return true
+//     }
+//     else {
+//         shouldScrape = true
+//         return false
+//     }
+// }
+// function scrapeTheWebOnce() {
+//     if(shouldScrape) {
+//         // console.log('scraping now');
+//         getRawData()
+//         shouldScrape = false
+//     }
+// }
+
+
+function isWeekendOrPH(dayCurr, dateCurr, monthCurr, yearCurr) {
+    let isWeekend = dayCurr=='Sat'||dayCurr=='Sun' ? true : false
+    let isPH = undefined
+
+    phSplit.forEach((obj, ind)=> {
+        let datePH = obj[0].padStart(2,0)
+        let mthPH  = obj[1].padStart(2,0)
+        let yearPH = obj[2].padStart(2,0)
+        if(dateCurr===datePH && monthCurr===mthPH && yearCurr===yearPH) isPH = isPH||true         // here is where the PH dates matched in JSON PH                     
+        else isPH = isPH||false        
+    })
+    if(isPH || isWeekend) console.log('it\'s isWeekendOrPH Day');
+    // console.log('isPH:', isPH, '| isWeekend:' ,isWeekend);
+    // console.log('isWeekendOrPH:', isPH || isWeekend);
+    return isPH || isWeekend
+}
