@@ -42,18 +42,22 @@ const handler = async function(event, context) {
 // exports.handler = schedule("@hourly", handler);          // “At minute 0 every hour” https://crontab.guru/
 exports.handler = schedule("1/3 * * * *", handler);        //“At every 3th minute from 1 through 59.”
 async function addEntryToTable(entry) {
-    base(process.env.AT_TABLE1_ID)
-    .create([entry],
-        function(err, records) {
-            if (err) {
-            console.error('ADD ENTRY ERROR', err);
-            return;
+    setTimeout(()=> {
+        base(process.env.AT_TABLE1_ID)
+        .create([entry],
+            function(err, records) {
+                if (err) {
+                console.error('ADD ENTRY ERROR', err);
+                return;
+                }
+                records.forEach(function (record) {
+                console.log(record.getId());
+                });
             }
-            records.forEach(function (record) {
-            console.log(record.getId());
-            });
-        }
-    );
+        )
+    }, 1000)
+
+    return 
 }
 
 async function getRawData() {
