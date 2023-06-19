@@ -11,7 +11,9 @@ const handler = async function(event, context) {
 
     console.log("Netlify scheduled function running");
     // getRawData()
-    await fetch("https://www.bursamalaysia.com/bm/trade/trading_resources/listing_directory/company-profile?stock_code=1155")
+    await fetch(
+        "https://www.bursamalaysia.com/bm/trade/trading_resources/listing_directory/company-profile?stock_code=1155",
+        { method: 'post',})
        .then((response) => response.text())
        .then((data) => {
             let entry = {
@@ -32,7 +34,7 @@ const handler = async function(event, context) {
             console.log('entrY :', entry);
             addEntryToTable(entry) 
         })
-       .catch((err)=> console.log(err))
+       .catch((err)=> console.log('fetchErroR:', err))
     return {
         statusCode: 200,
     };
