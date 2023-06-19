@@ -15,7 +15,7 @@ const handler = async function(event, context) {
         "https://www.bursamalaysia.com/bm/trade/trading_resources/listing_directory/company-profile?stock_code=1155",
         { method: 'post',})
        .then((response) => response.text())
-       .then((data) => {
+       .then(async (data) => {
             let entry = {
                 "fields": {
                   "Date": getLocalDate(),
@@ -32,7 +32,7 @@ const handler = async function(event, context) {
             } 
             entry.fields.JSON = JSON.stringify(entry)
             console.log('entrY :', entry);
-            addEntryToTable(entry) 
+            await addEntryToTable(entry) 
         })
        .catch((err)=> console.log('fetchErroR:', err))
     return {
@@ -41,6 +41,20 @@ const handler = async function(event, context) {
 };
 // exports.handler = schedule("@hourly", handler);          // “At minute 0 every hour” https://crontab.guru/
 exports.handler = schedule("1/3 * * * *", handler);        //“At every 3th minute from 1 through 59.”
+function addEntryToTable(entry) {
+    base(process.env.AT_TABLE1_ID)
+    .create([entry],
+        function(err, records) {
+            if (err) {
+            console.error('ADD ENTRY ERROR', err);
+            return;
+            }
+            records.forEach(function (record) {
+            console.log(record.getId());
+            });
+        }
+    );
+}
 
 async function getRawData() {
     return await fetch("https://www.bursamalaysia.com/bm/trade/trading_resources/listing_directory/company-profile?stock_code=1155")
@@ -139,25 +153,6 @@ function getLow(x) {
     // console.log('lowClean is :', lowClean, lowClean.length);
 }
 
-async function addEntryToTable(entry) {
-    let promise = new Promise(function(resolve, reject) {
-        base(process.env.AT_TABLE1_ID).create([entry],
-            function(err, records) {
-                if (err) {
-                    console.error('ADD ENTRY ERROR', err);
-                    reject(err)
-                    return;
-                } else {
-                    records.forEach(function (record) {
-                        console.log(record.getId());
-                    });
-                    resolve(records)
-                }
-            }
-        );
-    })
-    return await promise
-}
 
 function getLocalDate() {    // formatted as YYYY-MM-DD
     let d = new Date(Date.now())

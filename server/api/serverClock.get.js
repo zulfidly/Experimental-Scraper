@@ -20,7 +20,7 @@ const cycle = 1000 * 60     // in ms, range: 1000~60000 (1-60 seconds)
 const scrapeInHours = '18'    // format as 00-23
 const scrapeInMinutes = '30'  // format as MM. multiple of 10 only i.e: 00, 10, 20, 30, 40, 50
 
-// setInterval(()=> runner(), cycle)
+setInterval(()=> runner(), cycle)
 
 function runner() {
     let timedate = recalibrateClockForMsiaOfficeHours()           
@@ -75,11 +75,11 @@ function set2checkScrapeSchedule(hr, min) {
     // let min = cvb.getMinutes().toString().padStart(2, 0)
     // console.log(hr, min, shouldScrape2);
     if(
-        hr=='17' && min=='21' ||
-        hr=='17' && min=='23' ||
-        hr=='17' && min=='25' ||
-        hr=='17' && min=='27' ||
-        hr=='17' && min=='29' 
+        hr=='23' && min=='01' ||
+        hr=='23' && min=='03' ||
+        hr=='23' && min=='05' ||
+        hr=='23' && min=='07' ||
+        hr=='23' && min=='09' 
     ) {
         // console.log('returning true');
         return true
