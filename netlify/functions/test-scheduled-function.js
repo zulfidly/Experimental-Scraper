@@ -1,7 +1,6 @@
 // YOUR_BASE_DIRECTORY/netlify/functions/test-scheduled-function.js
 // import { getRawData } from "../../server/api/scraper.get.js";
 import Airtable from 'airtable'
-import { env } from 'process'
 
 import { schedule } from "@netlify/functions"
 // const { schedule } = require("@netlify/functions");
@@ -140,6 +139,7 @@ function getLow(x) {
 }
 
 function addEntryToTable(entry) {
+    console.log('addEntryToTable', process.env.AT_TABLE1_ID);
     base(process.env.AT_TABLE1_ID)
     .create([entry],
         function(err, records) {
