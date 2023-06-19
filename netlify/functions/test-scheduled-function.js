@@ -137,18 +137,24 @@ function getLow(x) {
     // console.log('lowClean is :', lowClean, lowClean.length);
 }
 
-function addEntryToTable(entry) {
-    base(process.env.AT_TABLE1_ID).create([entry],
-        function(err, records) {
-            if (err) {
-                console.error('ADD ENTRY ERROR', err);
-                return;
+async function addEntryToTable(entry) {
+    let promise = new Promise(function(resolve, reject) {
+        base(process.env.AT_TABLE1_ID).create([entry],
+            function(err, records) {
+                if (err) {
+                    console.error('ADD ENTRY ERROR', err);
+                    reject(err)
+                    return;
+                } else {
+                    records.forEach(function (record) {
+                        console.log(record.getId());
+                    });
+                    resolve(records)
+                }
             }
-            records.forEach(function (record) {
-                console.log(record.getId());
-            });
-        }
-    );
+        );
+    })
+    return await promise
 }
 
 function getLocalDate() {    // formatted as YYYY-MM-DD
