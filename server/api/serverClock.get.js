@@ -1,4 +1,4 @@
-import publicHols from './publicholiday.json'      // gazetted phSplit only
+import publicHols from '../../public/publicholiday.json'      // gazetted phSplit only
 import { getRawData } from './scraper.get.js'
 const months = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"];
 const days = ["Sun", "Mon", "Tue", "Wed", "Thurs", "Fri", "Sat"];
