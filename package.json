@@ -12,9 +12,11 @@
     "@nuxt/devtools": "latest",
     "@nuxtjs/tailwindcss": "^6.7.2",
     "@types/node": "^18",
+    "netlify-cli": "^15.6.0",
     "nuxt": "^3.5.2"
   },
   "dependencies": {
+    "@netlify/functions": "^1.6.0",
     "airtable": "^0.12.1"
   }
 }
