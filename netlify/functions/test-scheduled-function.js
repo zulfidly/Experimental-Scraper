@@ -1,11 +1,10 @@
 import Airtable from 'airtable'
 import { schedule } from "@netlify/functions"
 import publicHols from '../../public/publicholiday.json'
-Airtable.configure({
-    endpointUrl: 'https://api.airtable.com',
-    apiKey: process.env.AT_TOKEN
-});
+
+Airtable.configure({ endpointUrl: 'https://api.airtable.com', apiKey: process.env.AT_TOKEN });
 var base = new Airtable.base(process.env.AT_BASE_ID);
+
 const days = ["Sun", "Mon", "Tue", "Wed", "Thurs", "Fri", "Sat"];
 const months = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"];
 const phSplit = publicHols.map((x)=> { return x.date.split("-") })
@@ -37,15 +36,15 @@ async function addEntryToTable(entry) {
     return 
 }
 
-async function getRawData() {
+async function getRawData(dayQSE, dateQSE, timeQSE) {
     return await fetch("https://www.bursamalaysia.com/bm/trade/trading_resources/listing_directory/company-profile?stock_code=1155")
        .then((response) => response.text())
        .then(async(data) => {
             let entry = {
                 "fields": {
-                  "Date": getLocalDate(),
-                  "Day": days[new Date().getDay()],
-                  "Time(24hr)": getLocalTime(),
+                  "Date": dateQSE,
+                  "Day": dayQSE,
+                  "Time(24hr)": timeQSE,
                   "PreviousClose": previousClose(data),
                   "LastDone": lastDone(data),
                   "Open": getOpen(data),
@@ -141,14 +140,13 @@ function getLocalDate() {    // formatted as YYYY-MM-DD
     return ts 
 }
 function getLocalTime() {            // HH:MM in 24hours format
-    let d = new Date(Date.now())
+    let d = new Date()
     let hr = d.getHours().toString().padStart(2, 0)
     let min = d.getMinutes().toString().padStart(2, 0)
     return hr + ':' + min
 }
 
-/////////////////////////////////////////////////////////////////
-
+////////////////////////////////////////////////////////////////////////////////////////
 
 async function runner() {
     let timedate = recalibrateClockForMsiaOfficeHours()           
@@ -162,7 +160,12 @@ async function runner() {
     let second = timedate.getUTCSeconds().toString().padStart(2, 0)
     console.log(day, ':', date +'-'+ month +'-'+ year, '  > Time :', hour +':'+ minute +':'+ second, '|', timedate );   
     if(isWeekendOrPH(day, date, month, year)) return
-    await getRawData()
+    else {
+        let datetemp = year +'-'+ month +'-'+ date
+        let timetemp = hour +':'+ minute +':'+ second
+        getRawData(day, datetemp, timetemp)
+
+    }
     // if(checkScrapeSchedule(timedate)) scrapeTheWebOnce()
 }
 
@@ -174,6 +177,28 @@ function recalibrateClockForMsiaOfficeHours() {
     // console.log('newCl:', new Date(newCl));
     return new Date(newCl)
 }
+
+
+function isWeekendOrPH(dayCurr, dateCurr, monthCurr, yearCurr) {
+    let isWeekend = dayCurr=='Sat'||dayCurr=='Sun' ? true : false
+    let isPH = false
+
+    phSplit.forEach((obj, ind)=> {
+        let temp = undefined
+        let datePH = obj[0].padStart(2,0)
+        let mthPH  = obj[1].padStart(2,0)
+        let yearPH = obj[2].padStart(2,0)
+        if(dateCurr===datePH && monthCurr===mthPH && yearCurr===yearPH) temp = true         // here is where the PH dates matched in JSON PH                     
+        else temp = false
+        isPH = temp||isPH        
+    })
+    if(isPH||isWeekend) console.log('it\'s isWeekendOrPH Day');
+    // console.log('isPH:', isPH, '| isWeekend:' ,isWeekend);
+    // console.log('isWeekendOrPH:', isPH || isWeekend);
+    return isPH||isWeekend
+}
+
+
 
 // let shouldScrape = true
 // function checkScrapeSchedule(cvb) {
@@ -197,20 +222,3 @@ function recalibrateClockForMsiaOfficeHours() {
 //     }
 // }
 
-
-function isWeekendOrPH(dayCurr, dateCurr, monthCurr, yearCurr) {
-    let isWeekend = dayCurr=='Sat'||dayCurr=='Sun' ? true : false
-    let isPH = undefined
-
-    phSplit.forEach((obj, ind)=> {
-        let datePH = obj[0].padStart(2,0)
-        let mthPH  = obj[1].padStart(2,0)
-        let yearPH = obj[2].padStart(2,0)
-        if(dateCurr===datePH && monthCurr===mthPH && yearCurr===yearPH) isPH = isPH||true         // here is where the PH dates matched in JSON PH                     
-        else isPH = isPH||false        
-    })
-    if(isPH || isWeekend) console.log('it\'s isWeekendOrPH Day');
-    // console.log('isPH:', isPH, '| isWeekend:' ,isWeekend);
-    // console.log('isWeekendOrPH:', isPH || isWeekend);
-    return isPH || isWeekend
-}
