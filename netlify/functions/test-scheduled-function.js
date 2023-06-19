@@ -1,5 +1,7 @@
 // YOUR_BASE_DIRECTORY/netlify/functions/test-scheduled-function.js
 // import { getRawData } from "../../server/api/scraper.get.js";
+import Airtable from 'airtable'
+
 import { schedule } from "@netlify/functions"
 // const { schedule } = require("@netlify/functions");
 var base = new Airtable({apiKey: process.env.AT_TOKEN}).base(process.env.AT_BASE_ID);
