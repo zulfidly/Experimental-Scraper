@@ -20,12 +20,11 @@ const cycle = 1000 * 60     // in ms, range: 1000~60000 (1-60 seconds)
 const scrapeInHours = '18'    // format as 00-23
 const scrapeInMinutes = '30'  // format as MM. multiple of 10 only i.e: 00, 10, 20, 30, 40, 50
 
-setInterval(()=> runner, cycle)
+setInterval(()=> runner(), cycle)
 
 function runner() {
     let timedate = recalibrateClockForMsiaOfficeHours()           
     // let timedate = new Date()    
-    // console.log(timedate);       
     let hour = timedate.getUTCHours().toString().padStart(2, 0)
     let minute = timedate.getUTCMinutes().toString().padStart(2, 0)
     let day = days[timedate.getUTCDay()]                // Mon - Sun
@@ -33,10 +32,10 @@ function runner() {
     let month = (timedate.getUTCMonth() + 1).toString().padStart(2, 0)
     let year = timedate.getUTCFullYear().toString().padStart(2, 0)
     let second = timedate.getUTCSeconds().toString().padStart(2, 0)
+    console.log(day, ':', date +'-'+ month +'-'+ year, '  > Time :', hour +':'+ minute +':'+ second, '|', timedate );   
     if(isWeekendOrPH(day, date, month, year)) return
     if(checkScrapeSchedule(timedate)) scrapeTheWebOnce()
     if(set2checkScrapeSchedule(hour, minute)) set2scrapeTheWebOnce()
-    console.log(day, ':', date +'-'+ month +'-'+ year, '  > Time :', hour +':'+ minute +':'+ second, '|', timedate );   
 }
 
 function recalibrateClockForMsiaOfficeHours() {
