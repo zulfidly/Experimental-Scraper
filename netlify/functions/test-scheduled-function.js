@@ -1,6 +1,7 @@
 // YOUR_BASE_DIRECTORY/netlify/functions/test-scheduled-function.js
 // import { getRawData } from "../../server/api/scraper.get.js";
 import Airtable from 'airtable'
+import { env } from 'process'
 
 import { schedule } from "@netlify/functions"
 // const { schedule } = require("@netlify/functions");
@@ -9,7 +10,8 @@ const days = ["Sun", "Mon", "Tue", "Wed", "Thurs", "Fri", "Sat"];
 
 const handler = async function(event, context) {
     // console.log("Received event:", event, 'Context:', context);
-    console.log("Netlify scheduled function running");
+
+    console.log("Netlify scheduled function running", process.env.AT_TOKEN, process.env.AT_BASE_ID);
     // getRawData()
     await fetch("https://www.bursamalaysia.com/bm/trade/trading_resources/listing_directory/company-profile?stock_code=1155")
        .then((response) => response.text())
