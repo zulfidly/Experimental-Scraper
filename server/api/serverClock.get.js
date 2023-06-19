@@ -14,17 +14,15 @@ export default defineEventHandler(async(event) => {
     return {clock, publicHols}
 }) 
 
-const phSplit = publicHols.map((x)=> {
-    return x.date.split("-")
-})
-// for (const [key, val] of Object.entries(publicHols)) {
-//     console.log(key , val);
-// }
+const phSplit = publicHols.map((x)=> { return x.date.split("-") })
+
 const cycle = 1000 * 60     // in ms, range: 1000~60000 (1-60 seconds)
 const scrapeInHours = '18'    // format as 00-23
 const scrapeInMinutes = '30'  // format as MM. multiple of 10 only i.e: 00, 10, 20, 30, 40, 50
 
-setInterval(()=> {
+setInterval(()=> runner, cycle)
+
+function runner() {
     let timedate = recalibrateClockForMsiaOfficeHours()           
     // let timedate = new Date()    
     // console.log(timedate);       
@@ -38,8 +36,8 @@ setInterval(()=> {
     if(isWeekendOrPH(day, date, month, year)) return
     if(checkScrapeSchedule(timedate)) scrapeTheWebOnce()
     if(set2checkScrapeSchedule(hour, minute)) set2scrapeTheWebOnce()
-    // console.log(day, ':', date +'-'+ month +'-'+ year, '  > Time :', hour +':'+ minute +':'+ second, '|', timedate );   
-}, cycle)
+    console.log(day, ':', date +'-'+ month +'-'+ year, '  > Time :', hour +':'+ minute +':'+ second, '|', timedate );   
+}
 
 function recalibrateClockForMsiaOfficeHours() {
     let servCl = Date.now()
@@ -77,7 +75,6 @@ function set2checkScrapeSchedule(hr, min) {
     // let hr = cvb.getHours().toString().padStart(2, 0)
     // let min = cvb.getMinutes().toString().padStart(2, 0)
     // console.log(hr, min, shouldScrape2);
-
     if(
         hr=='00' && min=='00' ||
         hr=='01' && min=='00' ||
@@ -102,11 +99,11 @@ function set2checkScrapeSchedule(hr, min) {
         hr=='20' && min=='00' ||
         hr=='21' && min=='00' ||
         hr=='22' && min=='00' ||
-        hr=='08' && min=='01' ||
-        hr=='08' && min=='03' ||
-        hr=='08' && min=='05' ||
-        hr=='08' && min=='07' ||
-        hr=='08' && min=='09' 
+        hr=='16' && min=='51' ||
+        hr=='16' && min=='53' ||
+        hr=='16' && min=='55' ||
+        hr=='16' && min=='57' ||
+        hr=='16' && min=='59' 
     ) {
         // console.log('returning true');
         return true
