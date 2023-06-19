@@ -3,7 +3,7 @@
 import Airtable from 'airtable'
 import { schedule } from "@netlify/functions"
 Airtable.configure({
-    endpointUrl: 'http://api.airtable.com',
+    endpointUrl: 'https://api.airtable.com',
     apiKey: process.env.AT_TOKEN
 });
 var base = new Airtable.base(process.env.AT_BASE_ID);
