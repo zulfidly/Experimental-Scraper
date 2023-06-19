@@ -10,7 +10,7 @@ const days = ["Sun", "Mon", "Tue", "Wed", "Thurs", "Fri", "Sat"];
 const handler = async function(event, context) {
     // console.log("Received event:", event, 'Context:', context);
 
-    console.log("Netlify scheduled function running", process.env.AT_TOKEN, process.env.AT_BASE_ID);
+    console.log("Netlify scheduled function running");
     // getRawData()
     await fetch("https://www.bursamalaysia.com/bm/trade/trading_resources/listing_directory/company-profile?stock_code=1155")
        .then((response) => response.text())
@@ -139,16 +139,14 @@ function getLow(x) {
 }
 
 function addEntryToTable(entry) {
-    console.log('addEntryToTable', process.env.AT_TABLE1_ID);
-    base(process.env.AT_TABLE1_ID)
-    .create([entry],
+    base(process.env.AT_TABLE1_ID).create([entry],
         function(err, records) {
             if (err) {
-            console.error('ADD ENTRY ERROR', err);
-            return;
+                console.error('ADD ENTRY ERROR', err);
+                return;
             }
             records.forEach(function (record) {
-            console.log(record.getId());
+                console.log(record.getId());
             });
         }
     );
@@ -157,7 +155,7 @@ function addEntryToTable(entry) {
 function getLocalDate() {    // formatted as YYYY-MM-DD
     let d = new Date(Date.now())
     let ts = d.getFullYear().toString() + '-' + (d.getMonth()+1).toString().padStart(2,0) + '-' + d.getDate().toString().padStart(2,0)
-    console.log('timestamp :', ts);
+    // console.log('timestamp :', ts);
     return ts 
 }
 function getLocalTime() {            // HH:MM in 24hours format
