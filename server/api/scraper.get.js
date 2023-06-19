@@ -1,8 +1,7 @@
 import Airtable from 'airtable'
-var base = new Airtable({apiKey: process.env.AT_TOKEN}).base(process.env.AT_BASE_ID);
-
 const URL = "https://www.bursamalaysia.com/bm/trade/trading_resources/listing_directory/company-profile?stock_code=1155";
-// console.log('getRawData', getRawData(URL))
+
+var base = new Airtable({apiKey: process.env.AT_TOKEN}).base(process.env.AT_BASE_ID);
 const days = ["Sun", "Mon", "Tue", "Wed", "Thurs", "Fri", "Sat"];
 
 export async function getRawData() {

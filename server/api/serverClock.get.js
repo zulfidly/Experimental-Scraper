@@ -20,7 +20,7 @@ const cycle = 1000 * 60     // in ms, range: 1000~60000 (1-60 seconds)
 const scrapeInHours = '18'    // format as 00-23
 const scrapeInMinutes = '30'  // format as MM. multiple of 10 only i.e: 00, 10, 20, 30, 40, 50
 
-setInterval(()=> runner(), cycle)
+// setInterval(()=> runner(), cycle)
 
 function runner() {
     let timedate = recalibrateClockForMsiaOfficeHours()           
