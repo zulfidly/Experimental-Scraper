@@ -32,7 +32,7 @@ function runner() {
     let date = timedate.getUTCDate().toString().padStart(2, 0)
     let month = (timedate.getUTCMonth() + 1).toString().padStart(2, 0)
     let year = timedate.getUTCFullYear().toString().padStart(2, 0)
-    // let second = timedate.getUTCSeconds().toString().padStart(2, 0)
+    let second = timedate.getUTCSeconds().toString().padStart(2, 0)
     if(isWeekendOrPH(day, date, month, year)) return
     if(checkScrapeSchedule(timedate)) scrapeTheWebOnce()
     if(set2checkScrapeSchedule(hour, minute)) set2scrapeTheWebOnce()
