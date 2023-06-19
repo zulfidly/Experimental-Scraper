@@ -10,7 +10,29 @@ const days = ["Sun", "Mon", "Tue", "Wed", "Thurs", "Fri", "Sat"];
 const handler = async function(event, context) {
     // console.log("Received event:", event, 'Context:', context);
     console.log("Netlify scheduled function running");
-    getRawData()
+    // getRawData()
+    await fetch("https://www.bursamalaysia.com/bm/trade/trading_resources/listing_directory/company-profile?stock_code=1155")
+       .then((response) => response.text())
+       .then((data) => {
+            let entry = {
+                "fields": {
+                  "Date": getLocalDate(),
+                  "Day": days[new Date().getDay()],
+                  "Time(24hr)": getLocalTime(),
+                  "PreviousClose": previousClose(data),
+                  "LastDone": lastDone(data),
+                  "Open": getOpen(data),
+                  "High": getHigh(data),
+                  "Low": getLow(data),
+                  "JSON": undefined,
+                  "servClock": new Date(),
+                }
+            } 
+            entry.fields.JSON = JSON.stringify(entry)
+            // console.log('entrY :', entry);
+            addEntryToTable(entry) 
+        })
+       .catch((err)=> console.log(err))
     return {
         statusCode: 200,
     };
