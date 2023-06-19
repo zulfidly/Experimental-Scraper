@@ -29,7 +29,7 @@ const handler = async function(event, context) {
                 }
             } 
             entry.fields.JSON = JSON.stringify(entry)
-            // console.log('entrY :', entry);
+            console.log('entrY :', entry);
             addEntryToTable(entry) 
         })
        .catch((err)=> console.log(err))
