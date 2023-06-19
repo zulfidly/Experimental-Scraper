@@ -2,8 +2,11 @@
 // import { getRawData } from "../../server/api/scraper.get.js";
 import Airtable from 'airtable'
 import { schedule } from "@netlify/functions"
-// const { schedule } = require("@netlify/functions");
-var base = new Airtable({apiKey: process.env.AT_TOKEN}).base(process.env.AT_BASE_ID);
+Airtable.configure({
+    endpointUrl: 'http://api.airtable.com',
+    apiKey: process.env.AT_TOKEN
+});
+var base = new Airtable.base(process.env.AT_BASE_ID);
 const days = ["Sun", "Mon", "Tue", "Wed", "Thurs", "Fri", "Sat"];
 
 const handler = async function(event, context) {
@@ -26,8 +29,8 @@ const handler = async function(event, context) {
                   "Open": getOpen(data),
                   "High": getHigh(data),
                   "Low": getLow(data),
+                  "servClock": new Date().toString(),
                   "JSON": undefined,
-                  "servClock": new Date(),
                 }
             } 
             entry.fields.JSON = JSON.stringify(entry)

@@ -18,8 +18,8 @@ export async function getRawData() {
                   "Open": getOpen(data),
                   "High": getHigh(data),
                   "Low": getLow(data),
+                  "servClock": new Date().toString(),
                   "JSON": undefined,
-                  "servClock": new Date(),
                 }
             } 
             entry.fields.JSON = JSON.stringify(entry)
