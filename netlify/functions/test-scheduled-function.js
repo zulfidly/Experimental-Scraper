@@ -11,29 +11,43 @@ const phSplit = publicHols.map((x)=> { return x.date.split("-") })
 
 const handler = async function(event, context) {
     console.log("Netlify scheduled function running");
-
     await runner()
     return { statusCode: 200 };
 };
-exports.handler = schedule("1/3 * * * *", handler);        //“At every 3th minute from 1 through 59.” https://crontab.guru/
+exports.handler = schedule("1/15 18 * * *", handler);   //“At every 15th minute from 1 through 59 past hour 18.”  https://crontab.guru/
+
+async function runner() {
+    let timedate = recalibrateClockForMsiaOfficeHours()           
+    // let timedate = new Date()    
+    let hour = timedate.getUTCHours().toString().padStart(2, 0)
+    let minute = timedate.getUTCMinutes().toString().padStart(2, 0)
+    let day = days[timedate.getUTCDay()]                // Mon - Sun
+    let date = timedate.getUTCDate().toString().padStart(2, 0)
+    let month = (timedate.getUTCMonth() + 1).toString().padStart(2, 0)
+    let year = timedate.getUTCFullYear().toString().padStart(2, 0)
+    let second = timedate.getUTCSeconds().toString().padStart(2, 0)
+    console.log(day, ':', date +'-'+ month +'-'+ year, '  > Time :', hour +':'+ minute +':'+ second, '|', timedate );   
+    if(isWeekendOrPH(day, date, month, year)) return
+    else {
+        let datetemp = year +'-'+ month +'-'+ date
+        let timetemp = hour +':'+ minute +':'+ second
+        getRawData(day, datetemp, timetemp)
+    }
+}
 
 async function addEntryToTable(entry) {
-    setTimeout(()=> {
-        base(process.env.AT_TABLE1_ID)
-        .create([entry],
-            function(err, records) {
-                if (err) {
-                console.error('ADD ENTRY ERROR', err);
-                return;
-                }
-                records.forEach(function (record) {
-                console.log(record.getId());
-                });
+    base(process.env.AT_TABLE1_ID)
+    .create([entry],
+        function(err, records) {
+            if (err) {
+            console.error('ADD ENTRY ERROR', err);
+            return;
             }
-        )
-    }, 1000)
-
-    return 
+            records.forEach(function (record) {
+            console.log(record.getId());
+            });
+        }
+    )
 }
 
 async function getRawData(dayQSE, dateQSE, timeQSE) {
@@ -135,24 +149,7 @@ function getLow(x) {
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-async function runner() {
-    let timedate = recalibrateClockForMsiaOfficeHours()           
-    // let timedate = new Date()    
-    let hour = timedate.getUTCHours().toString().padStart(2, 0)
-    let minute = timedate.getUTCMinutes().toString().padStart(2, 0)
-    let day = days[timedate.getUTCDay()]                // Mon - Sun
-    let date = timedate.getUTCDate().toString().padStart(2, 0)
-    let month = (timedate.getUTCMonth() + 1).toString().padStart(2, 0)
-    let year = timedate.getUTCFullYear().toString().padStart(2, 0)
-    let second = timedate.getUTCSeconds().toString().padStart(2, 0)
-    console.log(day, ':', date +'-'+ month +'-'+ year, '  > Time :', hour +':'+ minute +':'+ second, '|', timedate );   
-    if(isWeekendOrPH(day, date, month, year)) return
-    else {
-        let datetemp = year +'-'+ month +'-'+ date
-        let timetemp = hour +':'+ minute +':'+ second
-        getRawData(day, datetemp, timetemp)
-    }
-}
+
 
 function recalibrateClockForMsiaOfficeHours() {
     let servCl = Date.now()
