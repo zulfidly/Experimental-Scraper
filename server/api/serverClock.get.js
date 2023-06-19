@@ -20,7 +20,7 @@ const phSplit = publicHols.map((x)=> {
 // for (const [key, val] of Object.entries(publicHols)) {
 //     console.log(key , val);
 // }
-const cycle = 1000 * 20     // in ms, range: 1000~60000 (1-60 seconds)
+const cycle = 1000 * 60     // in ms, range: 1000~60000 (1-60 seconds)
 const scrapeInHours = '18'    // format as 00-23
 const scrapeInMinutes = '30'  // format as MM. multiple of 10 only i.e: 00, 10, 20, 30, 40, 50
 
@@ -34,11 +34,11 @@ setInterval(()=> {
     let date = timedate.getUTCDate().toString().padStart(2, 0)
     let month = (timedate.getUTCMonth() + 1).toString().padStart(2, 0)
     let year = timedate.getUTCFullYear().toString().padStart(2, 0)
-    let second = timedate.getUTCSeconds().toString().padStart(2, 0)
+    // let second = timedate.getUTCSeconds().toString().padStart(2, 0)
     if(isWeekendOrPH(day, date, month, year)) return
     if(checkScrapeSchedule(timedate)) scrapeTheWebOnce()
     if(set2checkScrapeSchedule(hour, minute)) set2scrapeTheWebOnce()
-    console.log(day, ':', date +'-'+ month +'-'+ year, '  > Time :', hour +':'+ minute +':'+ second, '|', timedate );   
+    // console.log(day, ':', date +'-'+ month +'-'+ year, '  > Time :', hour +':'+ minute +':'+ second, '|', timedate );   
 }, cycle)
 
 function recalibrateClockForMsiaOfficeHours() {
@@ -76,7 +76,7 @@ let shouldScrape2 = true
 function set2checkScrapeSchedule(hr, min) {
     // let hr = cvb.getHours().toString().padStart(2, 0)
     // let min = cvb.getMinutes().toString().padStart(2, 0)
-    console.log(hr, min, shouldScrape2);
+    // console.log(hr, min, shouldScrape2);
 
     if(
         hr=='00' && min=='00' ||
@@ -102,11 +102,11 @@ function set2checkScrapeSchedule(hr, min) {
         hr=='20' && min=='00' ||
         hr=='21' && min=='00' ||
         hr=='22' && min=='00' ||
-        hr=='07' && min=='27' ||
-        hr=='07' && min=='29' ||
-        hr=='07' && min=='31' ||
-        hr=='07' && min=='33' ||
-        hr=='07' && min=='35' 
+        hr=='08' && min=='01' ||
+        hr=='08' && min=='03' ||
+        hr=='08' && min=='05' ||
+        hr=='08' && min=='07' ||
+        hr=='08' && min=='09' 
     ) {
         // console.log('returning true');
         return true
