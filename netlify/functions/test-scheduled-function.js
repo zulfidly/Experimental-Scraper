@@ -41,7 +41,7 @@ const handler = async function(event, context) {
 };
 // exports.handler = schedule("@hourly", handler);          // “At minute 0 every hour” https://crontab.guru/
 exports.handler = schedule("1/3 * * * *", handler);        //“At every 3th minute from 1 through 59.”
-function addEntryToTable(entry) {
+async function addEntryToTable(entry) {
     base(process.env.AT_TABLE1_ID)
     .create([entry],
         function(err, records) {
