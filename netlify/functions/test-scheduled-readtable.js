@@ -26,4 +26,4 @@ const handler = async function(event, context) {
     //     statusCode: 200,
     // };
 };
-exports.handler = schedule("1/5 * * * *", handler);        //“At every 5th minute from 1 through 59.”
+exports.handler = schedule("1/30 * * * *", handler);        //“At every 30th minute from 1 through 59.”
