@@ -11,7 +11,7 @@ const phSplit = publicHols.map((x)=> { return x.date.split("-") })
 
 const handler = async function(event, context) {
     console.log("Netlify scheduled function running");
-    // console.log(phSplit);
+
     await runner()
     return { statusCode: 200 };
 };
@@ -58,7 +58,7 @@ async function getRawData(dayQSE, dateQSE, timeQSE) {
             // console.log('entrY :', entry);
             await addEntryToTable(entry) 
         })
-       .catch((err)=> console.log(err))
+       .catch((err)=> console.log('fetchERROR:', err))
 };
 
 function getOpen(x) {
@@ -133,19 +133,6 @@ function getLow(x) {
     // console.log('lowClean is :', lowClean, lowClean.length);
 }
 
-function getLocalDate() {    // formatted as YYYY-MM-DD
-    let d = new Date()
-    let ts = d.getUTCFullYear().toString() + '-' + (d.getUTCMonth()+1).toString().padStart(2,0) + '-' + d.getUTCDate().toString().padStart(2,0)
-    // console.log('timestamp :', ts);
-    return ts 
-}
-function getLocalTime() {            // HH:MM in 24hours format
-    let d = new Date()
-    let hr = d.getHours().toString().padStart(2, 0)
-    let min = d.getMinutes().toString().padStart(2, 0)
-    return hr + ':' + min
-}
-
 ////////////////////////////////////////////////////////////////////////////////////////
 
 async function runner() {
@@ -164,9 +151,7 @@ async function runner() {
         let datetemp = year +'-'+ month +'-'+ date
         let timetemp = hour +':'+ minute +':'+ second
         getRawData(day, datetemp, timetemp)
-
     }
-    // if(checkScrapeSchedule(timedate)) scrapeTheWebOnce()
 }
 
 function recalibrateClockForMsiaOfficeHours() {
@@ -177,7 +162,6 @@ function recalibrateClockForMsiaOfficeHours() {
     // console.log('newCl:', new Date(newCl));
     return new Date(newCl)
 }
-
 
 function isWeekendOrPH(dayCurr, dateCurr, monthCurr, yearCurr) {
     let isWeekend = dayCurr=='Sat'||dayCurr=='Sun' ? true : false
@@ -198,27 +182,4 @@ function isWeekendOrPH(dayCurr, dateCurr, monthCurr, yearCurr) {
     return isPH||isWeekend
 }
 
-
-
-// let shouldScrape = true
-// function checkScrapeSchedule(cvb) {
-//     let hr = cvb.getHours().toString().padStart(2, 0)
-//     let min = cvb.getMinutes().toString().padStart(2, 0)
-
-//     if(scrapeInHours==hr && scrapeInMinutes==min) {
-//         // console.log('time to scrape');
-//         return true
-//     }
-//     else {
-//         shouldScrape = true
-//         return false
-//     }
-// }
-// function scrapeTheWebOnce() {
-//     if(shouldScrape) {
-//         // console.log('scraping now');
-//         getRawData()
-//         shouldScrape = false
-//     }
-// }
 
