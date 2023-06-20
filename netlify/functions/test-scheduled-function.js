@@ -1,6 +1,6 @@
 import Airtable from 'airtable'
 import { schedule } from "@netlify/functions"
-import { fetch } from 'node-fetch'
+import  fetch  from 'node-fetch'
 import publicHols from '../../public/publicholiday.json'
 
 Airtable.configure({ endpointUrl: 'https://api.airtable.com', apiKey: process.env.AT_TOKEN });
