@@ -1,6 +1,6 @@
 import { schedule } from "@netlify/functions"
 import Airtable from 'airtable'
-import publicHols from './n/public/publicholiday.json'
+import publicHols from '../../public/publicholiday.json'
 
 const handler = async function(event, context) {
     console.log("fetch scheduled function");
