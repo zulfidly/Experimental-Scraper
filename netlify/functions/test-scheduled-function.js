@@ -1,6 +1,6 @@
 import Airtable from 'airtable'
 import { schedule } from "@netlify/functions"
-import  fetch  from 'node-fetch'
+import fetch from 'node-fetch'
 import publicHols from '../../public/publicholiday.json'
 
 Airtable.configure({ endpointUrl: 'https://api.airtable.com', apiKey: process.env.AT_TOKEN });
@@ -85,16 +85,7 @@ function addEntryToTable(entry) {
 
 async function getRawData(dayQSE, dateQSE, timeQSE) {
     console.log('getRawData running');
-    // const controller = new AbortController()
-    // setTimeout(()=> {
-    //     controller.abort()
-    //     console.log('fetch aborted...');
-    // }, 3000)
-    await fetch(
-        // "https://www.bursamalaysia.com/bm/trade/trading_resources/listing_directory/company-profile?stock_code=1155",
-        "https://www.malaysiastock.biz/Corporate-Infomation.aspx?securityCode=0166",
-        // { signal: controller.signal }
-    )
+    await fetch("https://www.malaysiastock.biz/Corporate-Infomation.aspx?securityCode=0166")
        .then((response) => response.text())
        .then((data) => {
             let entry = {
