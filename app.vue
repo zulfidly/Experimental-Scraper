@@ -1,8 +1,7 @@
 <template>  
-
-  <div class=" w-full h-full flex flex-col justify-start items-center gap-4">
-
+  <div class=" w-full h-[100svh] flex flex-col justify-center items-center gap-4">
     <div class="flex flex-col px-2 py-6 lg:p-4 w-auto max-h-[90svh] border rounded-xl overflow-scroll bg-[var(--color-background-soft)] border-[var(--color-border)]">
+      
       <table class="min-w-[80vw] max-w-[90vw]  bg-[var(--color-background-mute)]">
         <caption class="mb-2 text-center text-md lg:text-lg font-normal lg:font-bold ">
           Daily statistics for <a class="underline decoration-dotted" href="https://www.malaysiastock.biz/Corporate-Infomation.aspx?securityCode=0166" target="_blank" aria-label="visit Inari website">Inari Amertron Bhd</a> [0166] 
@@ -33,23 +32,22 @@
       </table>
 
       <section class="place-self-end flex mt-12 gap-6">
-          <a class="px-3 m-auto border border-[var(--color-border)] rounded-lg bg-[var(--color-background-mute)]" href="https://portfolio-fidly.netlify.app/" target="_blank" aria-label="visit portfolio">
-            coded by fidly
-          </a>
+        <a class="px-3 m-auto border border-[var(--color-border)] rounded-lg bg-[var(--color-background-mute)]" href="https://portfolio-fidly.netlify.app/" target="_blank" aria-label="visit portfolio">
+          coded by fidly
+        </a>
 
         <IconGitHub />
+
         <button class=" mr-2 border border-[var(--color-border)] bg-[var(--color-background-mute)] rounded-lg">
           <a class="text-sm italic font-extralight" href="https://airtable.com/shrmTGaN1fcaE0kRA" target="_blank">
             view raw data
             <IconAirtable class="m-auto p-0.5"/>
           </a>
         </button>
-
       </section>
 
     </div>
   </div>
-
 </template>
 
 <script setup>
