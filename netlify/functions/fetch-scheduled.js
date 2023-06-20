@@ -2,7 +2,8 @@ import { schedule } from "@netlify/functions"
 import Airtable from 'airtable'
 import publicHols from '../../public/publicholiday.json'
 
-const handler = async function(event, context) {
+async function handler(event, context) {
+// const handler = async function(event, context) {
     console.log("fetch scheduled function");
     return await fetch("https://www.malaysiastock.biz/Corporate-Infomation.aspx?securityCode=0166")
     .then((response) => response.text())
@@ -146,5 +147,5 @@ const handler = async function(event, context) {
     }) // then() ends
     .catch((err)=> console.log('fetchERROR:', err))
 };
-exports.handler = schedule("57 * * * *", handler);   // Standard cron: “At 18:30 on every day-of-week from Monday through Friday.”
+exports.handler = schedule("8 * * * *", handler());   // Standard cron: “At 18:30 on every day-of-week from Monday through Friday.”
 // exports.handler = schedule("30 18 * * 1-5", handler);   // Standard cron: “At 18:30 on every day-of-week from Monday through Friday.”

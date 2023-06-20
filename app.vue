@@ -3,7 +3,7 @@
     <div class="flex flex-col px-2 py-6 lg:p-4 w-auto max-h-[90svh] border rounded-xl overflow-scroll bg-[var(--color-background-soft)] border-[var(--color-border)]">
       
       <table class="min-w-[80vw] max-w-[90vw]  bg-[var(--color-background-mute)]">
-        <caption class="mb-2 text-center text-md lg:text-lg font-normal lg:font-bold ">
+        <caption class="mb-4 text-center text-md lg:text-lg font-normal lg:font-bold ">
           Daily statistics for <a class="underline decoration-dotted" href="https://www.malaysiastock.biz/Corporate-Infomation.aspx?securityCode=0166" target="_blank" aria-label="visit Inari website">Inari Amertron Bhd</a> [0166] 
           <br> <span class="text-sm font-light italic">- this is a web scraping coding practice -</span>
         </caption>
