@@ -85,7 +85,7 @@ function addEntryToTable(entry) {
 
 async function getRawData(dayQSE, dateQSE, timeQSE) {
     console.log('getRawData running');
-    await fetch("https://www.malaysiastock.biz/Corporate-Infomation.aspx?securityCode=0166")
+    return await fetch("https://www.malaysiastock.biz/Corporate-Infomation.aspx?securityCode=0166")
        .then((response) => response.text())
        .then((data) => {
             let entry = {
