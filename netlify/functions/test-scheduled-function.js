@@ -91,7 +91,7 @@ async function getRawData(dayQSE, dateQSE, timeQSE) {
     // }, 3000)
     fetch(
         // "https://www.bursamalaysia.com/bm/trade/trading_resources/listing_directory/company-profile?stock_code=1155",
-        "https://www.bursamalaysia.com/bm/trade/trading_resources/listing_directory/company-profile?stock_code=1066",
+        "https://www.malaysiastock.biz/Corporate-Infomation.aspx?securityCode=0166",
         // { signal: controller.signal }
     )
        .then((response) => response.text())
