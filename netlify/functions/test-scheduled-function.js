@@ -81,6 +81,7 @@ function addEntryToTable(entry) {
 // })
 
 async function getRawData(dayQSE, dateQSE, timeQSE) {
+    console.log('getRawData running');
     return await fetch("https://www.bursamalaysia.com/bm/trade/trading_resources/listing_directory/company-profile?stock_code=1155")
        .then((response) => response.text())
        .then((data) => {
@@ -201,7 +202,7 @@ function isWeekendOrPH(dayCurr, dateCurr, monthCurr, yearCurr) {
         else temp = false
         isPH = temp||isPH        
     })
-    if(isPH||isWeekend) console.log('it\'s isWeekendOrPH Day');
+    console.log('is isWeekendOrPH true:', isPH||isWeekend);
     return isPH||isWeekend
 }
 
