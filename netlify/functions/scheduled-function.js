@@ -20,7 +20,7 @@ const handler = async function(event, context) {
 // exports.handler = schedule("1/15 18 * * *", handler);   //“At every 15th minute from 1 through 59 past hour 18.”  https://crontab.guru/
 
 // Netlify: Every 15 minutes, starting at 1 minutes past the hour (Times shown in UTC)
-exports.handler = schedule("1/3 * * * *", handler);   
+exports.handler = schedule("1/5 * * * *", handler);   
 // exports.handler = schedule("@daily", handler);   //“At every 15th minute from 1 through 59.”  https://crontab.guru/
 
 function runner() {
