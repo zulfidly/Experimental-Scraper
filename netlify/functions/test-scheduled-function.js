@@ -82,7 +82,15 @@ function addEntryToTable(entry) {
 
 async function getRawData(dayQSE, dateQSE, timeQSE) {
     console.log('getRawData running');
-    fetch("https://www.bursamalaysia.com/bm/trade/trading_resources/listing_directory/company-profile?stock_code=1155")
+    const controller = new AbortController()
+    setTimeout(()=> {
+        controller.abort()
+        console.log('fetch aborted...');
+    }, 3000)
+    fetch(
+        "https://www.bursamalaysia.com/bm/trade/trading_resources/listing_directory/company-profile?stock_code=1155",
+        { signal: controller.signal }
+    )
        .then((response) => response.text())
        .then((data) => {
             let entry = {
@@ -104,6 +112,7 @@ async function getRawData(dayQSE, dateQSE, timeQSE) {
             addEntryToTable(entry) 
         })
        .catch((err)=> console.log('fetchERROR:', err))
+
 };
 
 function getOpen(x) {
@@ -203,7 +212,7 @@ function isWeekendOrPH(dayCurr, dateCurr, monthCurr, yearCurr) {
         else temp = false
         isPH = temp||isPH        
     })
-    console.log('is isWeekendOrPH true:', isPH||isWeekend);
+    console.log('isWeekendOrPH:', isPH||isWeekend);
     return isPH||isWeekend
 }
 
