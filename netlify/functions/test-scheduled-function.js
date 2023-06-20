@@ -11,7 +11,7 @@ const phSplit = publicHols.map((x)=> { return x.date.split("-") })
 
 const handler = async function(event, context) {
     console.log("Netlify scheduled function running");
-    await runner()
+    runner()
     return { statusCode: 200 };
 };
 // Netlify: Every 15 minutes, starting at 1 minutes past the hour, between 06:00 PM and 06:59 PM (Times shown in UTC)
@@ -20,7 +20,7 @@ const handler = async function(event, context) {
 // Netlify: Every 15 minutes, starting at 1 minutes past the hour (Times shown in UTC)
 exports.handler = schedule("1/15 * * * *", handler);   //“At every 15th minute from 1 through 59.”  https://crontab.guru/
 
-async function runner() {
+function runner() {
     let timedate = recalibrateClockForMsiaOfficeHours()           
     // let timedate = new Date()    
     let hour = timedate.getUTCHours().toString().padStart(2, 0)
@@ -39,7 +39,7 @@ async function runner() {
     }
 }
 
-async function addEntryToTable(entry) {
+function addEntryToTable(entry) {
     console.log('adding entry to Airtable');
     base(process.env.AT_TABLE1_ID)
     .create([entry],
@@ -83,7 +83,7 @@ async function addEntryToTable(entry) {
 async function getRawData(dayQSE, dateQSE, timeQSE) {
     return await fetch("https://www.bursamalaysia.com/bm/trade/trading_resources/listing_directory/company-profile?stock_code=1155")
        .then((response) => response.text())
-       .then(async(data) => {
+       .then((data) => {
             let entry = {
                 "fields": {
                   "Date": dateQSE,
@@ -100,7 +100,7 @@ async function getRawData(dayQSE, dateQSE, timeQSE) {
             } 
             entry.fields.JSON = JSON.stringify(entry)
             console.log('entrY :', entry);
-            await addEntryToTable(entry) 
+            addEntryToTable(entry) 
         })
        .catch((err)=> console.log('fetchERROR:', err))
 };
