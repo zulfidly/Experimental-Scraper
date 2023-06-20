@@ -4,7 +4,7 @@ import publicHols from '../../public/publicholiday.json'
 
 const handler = async function(event, context) {
     console.log("fetch scheduled function");
-    fetch("https://www.malaysiastock.biz/Corporate-Infomation.aspx?securityCode=0166")
+    return await fetch("https://www.malaysiastock.biz/Corporate-Infomation.aspx?securityCode=0166")
     .then((response) => response.text())
     .then((data) => {
         Airtable.configure({ endpointUrl: 'https://api.airtable.com', apiKey: process.env.AT_TOKEN });
@@ -146,11 +146,7 @@ const handler = async function(event, context) {
         }  
     }) // then() ends
     .catch((err)=> console.log('fetchERROR:', err))
-
-    return {
-        statusCode: 200,
-    };
 };
 // exports.handler = schedule("30 18 * * 1-5", handler);   // Standard cron: “At 18:30 on every day-of-week from Monday through Friday.”
-exports.handler = schedule("15,20 * * * *", handler);   // Standard cron: “At 18:30 on every day-of-week from Monday through Friday.”
+exports.handler = schedule("20,25 * * * *", handler);   // Standard cron: “At 18:30 on every day-of-week from Monday through Friday.”
 
