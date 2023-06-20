@@ -19,7 +19,7 @@ const handler = async function(event, context) {
 
 // Netlify: Every 15 minutes, starting at 1 minutes past the hour (Times shown in UTC)
 // exports.handler = schedule("1/15 * * * *", handler);   //“At every 15th minute from 1 through 59.”  https://crontab.guru/
-exports.handler = schedule("1/5 * * * *", handler);   //“At every 15th minute from 1 through 59.”  https://crontab.guru/
+exports.handler = schedule("@daily", handler);   //“At every 15th minute from 1 through 59.”  https://crontab.guru/
 
 function runner() {
     let timedate = recalibrateClockForMsiaOfficeHours()           
