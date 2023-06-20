@@ -89,12 +89,12 @@ async function getRawData(dayQSE, dateQSE, timeQSE) {
     //     controller.abort()
     //     console.log('fetch aborted...');
     // }, 3000)
-    fetch(
+    await fetch(
         // "https://www.bursamalaysia.com/bm/trade/trading_resources/listing_directory/company-profile?stock_code=1155",
         "https://www.malaysiastock.biz/Corporate-Infomation.aspx?securityCode=0166",
         // { signal: controller.signal }
     )
-    //    .then((response) => response.text())
+       .then((response) => response.text())
        .then((data) => {
             let entry = {
                 "fields": {
