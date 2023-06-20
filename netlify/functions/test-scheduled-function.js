@@ -18,7 +18,8 @@ const handler = async function(event, context) {
 // exports.handler = schedule("1/15 18 * * *", handler);   //“At every 15th minute from 1 through 59 past hour 18.”  https://crontab.guru/
 
 // Netlify: Every 15 minutes, starting at 1 minutes past the hour (Times shown in UTC)
-exports.handler = schedule("1/15 * * * *", handler);   //“At every 15th minute from 1 through 59.”  https://crontab.guru/
+// exports.handler = schedule("1/15 * * * *", handler);   //“At every 15th minute from 1 through 59.”  https://crontab.guru/
+exports.handler = schedule("1/5 * * * *", handler);   //“At every 15th minute from 1 through 59.”  https://crontab.guru/
 
 function runner() {
     let timedate = recalibrateClockForMsiaOfficeHours()           
@@ -88,7 +89,8 @@ async function getRawData(dayQSE, dateQSE, timeQSE) {
         console.log('fetch aborted...');
     }, 3000)
     fetch(
-        "https://www.bursamalaysia.com/bm/trade/trading_resources/listing_directory/company-profile?stock_code=1155",
+        // "https://www.bursamalaysia.com/bm/trade/trading_resources/listing_directory/company-profile?stock_code=1155",
+        "https://www.bursamalaysia.com/bm/trade/trading_resources/listing_directory/company-profile?stock_code=1066",
         { signal: controller.signal }
     )
        .then((response) => response.text())
