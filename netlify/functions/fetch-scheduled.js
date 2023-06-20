@@ -124,7 +124,6 @@ const handler = async function(event, context) {
                 else temp = false
                 isPH = temp||isPH        
             })
-            console.log('isWeekendOrPH:', isPH||isWeekend);
 
             if(isPH) {
                 let entryPH = {
@@ -142,11 +141,11 @@ const handler = async function(event, context) {
                 } 
                 addEntryToTable(entryPH)
             }
-            return isPH||isWeekend
+            return isPH
         }  
     }) // then() ends
     .catch((err)=> console.log('fetchERROR:', err))
 };
-// exports.handler = schedule("30 18 * * 1-5", handler);   // Standard cron: “At 18:30 on every day-of-week from Monday through Friday.”
-exports.handler = schedule("20,25 * * * *", handler);   // Standard cron: “At 18:30 on every day-of-week from Monday through Friday.”
+exports.handler = schedule("30 18 * * 1-5", handler);   // Standard cron: “At 18:30 on every day-of-week from Monday through Friday.”
+// exports.handler = schedule("20,25 * * * *", handler);   // Standard cron: “At 18:30 on every day-of-week from Monday through Friday.”
 
