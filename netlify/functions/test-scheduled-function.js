@@ -19,7 +19,7 @@ const handler = async function(event, context) {
 // exports.handler = schedule("1/15 18 * * *", handler);   //“At every 15th minute from 1 through 59 past hour 18.”  https://crontab.guru/
 
 // Netlify: Every 15 minutes, starting at 1 minutes past the hour (Times shown in UTC)
-exports.handler = schedule("1/4 * * * *", handler);   
+exports.handler = schedule("1/3 * * * *", handler);   
 // exports.handler = schedule("@daily", handler);   //“At every 15th minute from 1 through 59.”  https://crontab.guru/
 
 function runner() {
@@ -84,6 +84,21 @@ function addEntryToTable(entry) {
 
 async function getRawData(dayQSE, dateQSE, timeQSE) {
     console.log('getRawData running');
+    let entry = {
+        "fields": {
+          "Date": dateQSE,
+          "Day": dayQSE,
+          "Time24h": timeQSE,
+          "PreviousClose": previousClose(data),
+          "LastDone": lastDone(data),
+          "Open": getOpen(data),
+          "DayRange": getDaysRange(data),
+          "JSON": undefined,
+          "servClock": new Date(),
+        }
+    } 
+    console.log('entrY :', entry);
+
     // const controller = new AbortController()
     // setTimeout(()=> {
     //     controller.abort()
@@ -96,21 +111,7 @@ async function getRawData(dayQSE, dateQSE, timeQSE) {
     )
        .then((response) => response.text())
        .then((data) => {
-            let entry = {
-                "fields": {
-                  "Date": dateQSE,
-                  "Day": dayQSE,
-                  "Time24h": timeQSE,
-                  "PreviousClose": previousClose(data),
-                  "LastDone": lastDone(data),
-                  "Open": getOpen(data),
-                  "DayRange": getDaysRange(data),
-                  "JSON": undefined,
-                  "servClock": new Date(),
-                }
-            } 
             entry.fields.JSON = JSON.stringify(entry)
-            console.log('entrY :', entry);
             addEntryToTable(entry) 
         })
        .catch((err)=> console.log('fetchERROR:', err))

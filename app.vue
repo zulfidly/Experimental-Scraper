@@ -14,11 +14,10 @@
           <tr class="[&>th]:text-md [&>th]:font-bold [&>th]:text-center [&>th]:border">
             <th>Date</th>
             <th>Day</th>
-            <th>Time</th>
+            <th>Time Read</th>
             <th>Previous Close</th>
             <th>Open</th>
-            <th>High</th>
-            <th>Low</th>
+            <th>Day's Range</th>
             <th>Last Done</th>
           </tr>
 
@@ -28,8 +27,7 @@
             <td>{{ x.fields.Time24h }}</td>
             <td>{{ x.fields.PreviousClose }}</td>
             <td>{{ x.fields.Open }}</td>
-            <td>{{ x.fields.High }}</td>
-            <td>{{ x.fields.Low }}</td>
+            <td>{{ x.fields.DayRange }}</td>
             <td>{{ x.fields.LastDone }}</td>
           </tr>
         </tbody>  
