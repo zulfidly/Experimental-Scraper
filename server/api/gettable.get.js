@@ -1,18 +1,19 @@
 import Airtable from 'airtable'
+
 export default defineEventHandler(async(event) => {
-    // console.log('Obj :', await readTest());
     return await readTable1()
 }) 
 
 export async function readTable1() {
-    var base = new Airtable({apiKey: process.env.AT_TOKEN}).base(process.env.AT_BASE_ID);
+    Airtable.configure({ endpointUrl: 'https://api.airtable.com', apiKey: process.env.AT_TOKEN });
+    var base = new Airtable.base(process.env.AT_BASE_ID);
+
     let promise = new Promise(function(resolve, reject) {
         base(process.env.AT_TABLE1_ID).select({
             view: 'Grid view'
         }).firstPage(function(err, records) {
             if (err) { console.error(err)
                 reject(err)
-                return;b
             } else {
                 let temp = []
                 records.forEach(function(record, ind) {                    

@@ -14,7 +14,9 @@ const handler = async function(event, context) {
     await runner()
     return { statusCode: 200 };
 };
-exports.handler = schedule("1/15 18 * * *", handler);   //“At every 15th minute from 1 through 59 past hour 18.”  https://crontab.guru/
+// Every 15 minutes, starting at 1 minutes past the hour, between 06:00 PM and 06:59 PM (Times shown in UTC)
+// exports.handler = schedule("1/15 18 * * *", handler);   //“At every 15th minute from 1 through 59 past hour 18.”  https://crontab.guru/
+exports.handler = schedule("1/15 * * * *", handler);   //“At every 15th minute from 1 through 59.”  https://crontab.guru/
 
 async function runner() {
     let timedate = recalibrateClockForMsiaOfficeHours()           
@@ -40,15 +42,29 @@ async function addEntryToTable(entry) {
     .create([entry],
         function(err, records) {
             if (err) {
-            console.error('ADD ENTRY ERROR', err);
-            return;
+                console.error('ADD ENTRY ERROR', err);
+                //
+                return;
             }
             records.forEach(function (record) {
-            console.log(record.getId());
+                console.log(record.getId());
             });
         }
     )
 }
+let promise1 = new Promise(function(resolve, reject) {
+    base(process.env.AT_TABLE1_ID)
+    .create([entry],
+        function(err, records) {
+            if (err) {
+                console.error('ERROR adding entry:', err);
+                reject(`ERROR adding entry: ${err}`)
+                return;
+            }
+            resolve( records.forEach(function (record) { console.log('SUCCESSFUL entry:', record.getId()) }) )
+        }
+    )
+})
 
 async function getRawData(dayQSE, dateQSE, timeQSE) {
     return await fetch("https://www.bursamalaysia.com/bm/trade/trading_resources/listing_directory/company-profile?stock_code=1155")
@@ -58,7 +74,7 @@ async function getRawData(dayQSE, dateQSE, timeQSE) {
                 "fields": {
                   "Date": dateQSE,
                   "Day": dayQSE,
-                  "Time(24hr)": timeQSE,
+                  "Time24h": timeQSE,
                   "PreviousClose": previousClose(data),
                   "LastDone": lastDone(data),
                   "Open": getOpen(data),
@@ -149,8 +165,6 @@ function getLow(x) {
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-
-
 function recalibrateClockForMsiaOfficeHours() {
     let servCl = Date.now()
     // console.log(new Date(servCl));
@@ -174,8 +188,6 @@ function isWeekendOrPH(dayCurr, dateCurr, monthCurr, yearCurr) {
         isPH = temp||isPH        
     })
     if(isPH||isWeekend) console.log('it\'s isWeekendOrPH Day');
-    // console.log('isPH:', isPH, '| isWeekend:' ,isWeekend);
-    // console.log('isWeekendOrPH:', isPH || isWeekend);
     return isPH||isWeekend
 }
 
