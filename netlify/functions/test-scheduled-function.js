@@ -40,17 +40,27 @@ async function runner() {
 }
 
 async function addEntryToTable(entry) {
+    console.log('adding entry to Airtable');
     base(process.env.AT_TABLE1_ID)
     .create([entry],
         function(err, records) {
-            if (err) {
-                console.error('ADD ENTRY ERROR', err);
-                //
-                return;
-            }
-            records.forEach(function (record) {
-                console.log(record.getId());
-            });
+            let cnt = 0
+            const tester = setInterval(()=> {
+                cnt++
+                console.log(cnt, 'setInterval => ERR:', err, '| RECORDS', records);
+
+                if (err) {
+                    clearInterval(tester)
+                    console.error('ADD ENTRY ERROR', err);
+                }
+                else {
+                    records.forEach(function (record) {
+                        console.log('entrY added:', record.getId());
+                        clearInterval(tester)
+                    });
+
+                }
+            }, 1000)
         }
     )
 }
@@ -87,7 +97,7 @@ async function getRawData(dayQSE, dateQSE, timeQSE) {
                 }
             } 
             entry.fields.JSON = JSON.stringify(entry)
-            // console.log('entrY :', entry);
+            console.log('entrY :', entry);
             await addEntryToTable(entry) 
         })
        .catch((err)=> console.log('fetchERROR:', err))

@@ -5,8 +5,8 @@
     </header>
 
     <div class="relative p-4 w-auto max-h-[90svh] border-2 rounded-xl overflow-scroll">
-      <button class="absolute mt-1 mr-1 top-0 right-0 bg-[var(--color-border)] py-0.5 px-3 rounded-lg">
-        <a href="https://airtable.com/shrmTGaN1fcaE0kRA" target="_blank">view server side Airtable</a>
+      <button class="z-10 absolute mt-1 mr-1 top-0 right-0 bg-[var(--color-border)] py-0.5 px-3 rounded-lg">
+        <a href="https://airtable.com/shrmTGaN1fcaE0kRA" target="_blank">view Airtable</a>
       </button>
       <table class="relative min-w-[80vw]">
         <caption class="mt-3 text-left text-lg font-bold">Daily statistics for MBB 1155</caption>
