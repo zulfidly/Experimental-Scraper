@@ -51,14 +51,16 @@ async function addEntryToTable(entry) {
 
                 if (err) {
                     clearInterval(tester)
-                    console.error('ADD ENTRY ERROR', err);
+                    console.error('ADD ENTRY ERROR', err, 'record error:', records);
                 }
-                else {
+                else if(!err) {
                     records.forEach(function (record) {
                         console.log('entrY added:', record.getId());
                         clearInterval(tester)
                     });
-
+                }
+                else {
+                    console.log('Pending for data entry');
                 }
             }, 1000)
         }
