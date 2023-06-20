@@ -1,8 +1,9 @@
 import { schedule } from "@netlify/functions"
 
-
+let counter = 0
 const handler = async function(event, context) {
-    console.log("Netlify scheduled function running");
+    console.log(counter, "dummy1 scheduled function");
+    counter++
 
     return { statusCode: 200 };
 };
