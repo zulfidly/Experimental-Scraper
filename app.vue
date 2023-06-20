@@ -9,7 +9,7 @@
         <a href="https://airtable.com/shrmTGaN1fcaE0kRA" target="_blank">view Airtable</a>
       </button>
       <table class="relative min-w-[80vw]">
-        <caption class="mt-3 text-left text-lg font-bold">Daily statistics for MBB 1155</caption>
+        <caption class="mt-3 text-left text-lg font-bold">Daily statistics for Inari Amertron Bhd [0166]</caption>
         <tbody>
           <tr class="[&>th]:text-md [&>th]:font-bold [&>th]:text-center [&>th]:border">
             <th>Date</th>

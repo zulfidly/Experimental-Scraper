@@ -8,6 +8,7 @@ var base = new Airtable.base(process.env.AT_BASE_ID);
 const days = ["Sun", "Mon", "Tue", "Wed", "Thurs", "Fri", "Sat"];
 const months = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"];
 const phSplit = publicHols.map((x)=> { return x.date.split("-") })
+const regex = new RegExp(/["A-Z_=:;<\/>"']/, 'ig')
 
 const handler = async function(event, context) {
     console.log("Netlify scheduled function running");
@@ -18,8 +19,8 @@ const handler = async function(event, context) {
 // exports.handler = schedule("1/15 18 * * *", handler);   //“At every 15th minute from 1 through 59 past hour 18.”  https://crontab.guru/
 
 // Netlify: Every 15 minutes, starting at 1 minutes past the hour (Times shown in UTC)
-// exports.handler = schedule("1/15 * * * *", handler);   //“At every 15th minute from 1 through 59.”  https://crontab.guru/
-exports.handler = schedule("@daily", handler);   //“At every 15th minute from 1 through 59.”  https://crontab.guru/
+exports.handler = schedule("1/4 * * * *", handler);   
+// exports.handler = schedule("@daily", handler);   //“At every 15th minute from 1 through 59.”  https://crontab.guru/
 
 function runner() {
     let timedate = recalibrateClockForMsiaOfficeHours()           
@@ -83,15 +84,15 @@ function addEntryToTable(entry) {
 
 async function getRawData(dayQSE, dateQSE, timeQSE) {
     console.log('getRawData running');
-    const controller = new AbortController()
-    setTimeout(()=> {
-        controller.abort()
-        console.log('fetch aborted...');
-    }, 3000)
+    // const controller = new AbortController()
+    // setTimeout(()=> {
+    //     controller.abort()
+    //     console.log('fetch aborted...');
+    // }, 3000)
     fetch(
         // "https://www.bursamalaysia.com/bm/trade/trading_resources/listing_directory/company-profile?stock_code=1155",
         "https://www.bursamalaysia.com/bm/trade/trading_resources/listing_directory/company-profile?stock_code=1066",
-        { signal: controller.signal }
+        // { signal: controller.signal }
     )
        .then((response) => response.text())
        .then((data) => {
@@ -103,8 +104,7 @@ async function getRawData(dayQSE, dateQSE, timeQSE) {
                   "PreviousClose": previousClose(data),
                   "LastDone": lastDone(data),
                   "Open": getOpen(data),
-                  "High": getHigh(data),
-                  "Low": getLow(data),
+                  "DayRange": getDaysRange(data),
                   "JSON": undefined,
                   "servClock": new Date(),
                 }
@@ -114,79 +114,49 @@ async function getRawData(dayQSE, dateQSE, timeQSE) {
             addEntryToTable(entry) 
         })
        .catch((err)=> console.log('fetchERROR:', err))
-
 };
 
 function getOpen(x) {
-    let str = '<th scope="row">Open</th>'
+    let str = '<label id="MainContent_lbQuoteOpen" style="font-size:15px;  font-weight:bold; color:#333;">'
     let strLength = str.length
-    let start = x.indexOf(str) + strLength + 1
-    let end = start + 17
+    let start = x.indexOf(str) + strLength
+    let end = start + 8 
     let open = x.slice(start, end).trim()
-    let openClean = open.replace(/[A-Z<>"='/]/ig,'').trim()
+    let openClean = open.replace(regex,'').trim()
     if(Number(openClean)) return openClean.toString()
     else return 'invalid'
-    // console.log('Open is :', open, open.length)
-    //   console.log('OpenClean is :', openClean, openClean.length)
 }
 
 function lastDone(x) {
-    let str = '<span class="down"></span>'    // or use <span class="down"></span>, friday uses down
+    let str = 'id="MainContent_lbQuoteLast"'    // 2 classes here i.e class="RedQoute" or class="GreenQuote"
     let strLength = str.length
-    let start = x.indexOf(str) + strLength - 0
-    let end = start + 10
+    let start = x.indexOf(str) + strLength
+    let end = start + strLength + 30
     let lastDone = x.slice(start, end).trim()
-    let lastDoneClean = lastDone.replace(/[A-Z<>"='/]/ig,'').trim()
+    let lastDoneClean = lastDone.replace(regex,'').trim()
     if(Number(lastDoneClean)) return lastDoneClean.toString()
-    else {
-        let str = '<span class="up"></span>'    // or use <span class="down"></span>
-        let strLength = str.length
-        let start = x.indexOf(str) + strLength - 0
-        let end = start + 10
-        let lastDone = x.slice(start, end).trim()
-        let lastDoneClean = lastDone.replace(/[A-Z<>"='/]/ig,'').trim()
-        if(Number(lastDoneClean)) return lastDoneClean.toString()
-        else return 'invalid'
-    }
+    else return 'invalid'
 }
 
 function previousClose(x) {
-    let str = '<th class="w-50" scope="row">LACP</th>'
+    let str = '<label id="MainContent_lbQuoteRef" style="font-size:15px;  font-weight:bold; color:#333;">'
     let strLength = str.length
-    let start = x.indexOf(str) + strLength + 16
-    let end = start + 11
+    let start = x.indexOf(str) + strLength 
+    let end = start + 8
     let prevClose = x.slice(start, end).trim()
-    let prevCloseClean = prevClose.replace(/[A-Z<>"=/']/ig,'').trim()
+    let prevCloseClean = prevClose.replace(regex,'').trim()
     if(Number(prevCloseClean)) return prevCloseClean.toString()
     else return 'invalid'
-    // console.log('PreviousClose is :', prevClose, prevClose.length)
-    //   console.log('prevCloseClean is :', prevCloseClean, prevCloseClean.length);
 }
-
-function getHigh(x) {
-    let str = '<th scope="row">High</th>'
+function getDaysRange(x) {
+    let str = '<label id="MainContent_lbDayRange" style="font-size:15px;  font-weight:bold; color:#333;">'
     let strLength = str.length
     let start = x.indexOf(str) + strLength + 0
-    let end = start + 11
-    let high = x.slice(start, end).trim()
-    let highClean = high.replace(/[A-Z<>"=/']/ig,'').trim()
-    if(Number(highClean)) return highClean.toString()
+    let end = start + 14
+    let dayRange = x.slice(start, end).trim()
+    let dayRangeClean = dayRange.replace(regex,'').trim()
+    if(Number(dayRangeClean)) return dayRangeClean.toString()
     else return 'invalid'
-    // console.log('high is :', high, high.length)
-    // console.log('highClean is :', highClean, highClean.length);
-}
-
-function getLow(x) {
-    let str = '<th scope="row">Low</th>'
-    let strLength = str.length
-    let start = x.indexOf(str) + strLength + 0
-    let end = start + 11
-    let low = x.slice(start, end).trim()
-    let lowClean = low.replace(/[A-Z<>"=/']/ig,'').trim()
-    if(Number(lowClean)) return lowClean.toString()
-    else return 'invalid'
-    // console.log('low is :', low, low.length)
-    // console.log('lowClean is :', lowClean, lowClean.length);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
