@@ -84,21 +84,6 @@ function addEntryToTable(entry) {
 
 async function getRawData(dayQSE, dateQSE, timeQSE) {
     console.log('getRawData running');
-    let entry = {
-        "fields": {
-          "Date": dateQSE,
-          "Day": dayQSE,
-          "Time24h": timeQSE,
-          "PreviousClose": previousClose(data),
-          "LastDone": lastDone(data),
-          "Open": getOpen(data),
-          "DayRange": getDaysRange(data),
-          "JSON": undefined,
-          "servClock": new Date(),
-        }
-    } 
-    console.log('entrY :', entry);
-
     // const controller = new AbortController()
     // setTimeout(()=> {
     //     controller.abort()
@@ -111,6 +96,20 @@ async function getRawData(dayQSE, dateQSE, timeQSE) {
     )
        .then((response) => response.text())
        .then((data) => {
+            let entry = {
+                "fields": {
+                "Date": dateQSE,
+                "Day": dayQSE,
+                "Time24h": timeQSE,
+                "PreviousClose": previousClose(data),
+                "LastDone": lastDone(data),
+                "Open": getOpen(data),
+                "DayRange": getDaysRange(data),
+                "JSON": undefined,
+                "servClock": new Date(),
+                }
+            } 
+            console.log('entrY :', entry);
             entry.fields.JSON = JSON.stringify(entry)
             addEntryToTable(entry) 
         })
