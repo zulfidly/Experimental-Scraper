@@ -9,7 +9,7 @@ var base = new Airtable.base(process.env.AT_BASE_ID);
 const days = ["Sun", "Mon", "Tue", "Wed", "Thurs", "Fri", "Sat"];
 const months = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"];
 const phSplit = publicHols.map((x)=> { return x.date.split("-") })
-const regex = new RegExp(/["A-Z_=:;<\/>"']/, 'ig')
+// const regex = new RegExp(/["A-Z_=:;<\/>"']/, 'ig')
 
 const handler = async function(event, context) {
     console.log("Netlify scheduled function running");
@@ -114,7 +114,7 @@ function getOpen(x) {
     let start = x.indexOf(str) + strLength
     let end = start + 8 
     let open = x.slice(start, end).trim()
-    let openClean = open.replace(regex,'').trim()
+    let openClean = open.replace(/["A-Z_=:;<\/>"']/ig,'').trim()
     if(Number(openClean)) return openClean.toString()
     else return 'invalid'
 }
@@ -125,7 +125,7 @@ function lastDone(x) {
     let start = x.indexOf(str) + strLength
     let end = start + strLength + 30
     let lastDone = x.slice(start, end).trim()
-    let lastDoneClean = lastDone.replace(regex,'').trim()
+    let lastDoneClean = lastDone.replace(/["A-Z_=:;<\/>"']/ig,'').trim()
     if(Number(lastDoneClean)) return lastDoneClean.toString()
     else return 'invalid'
 }
@@ -136,7 +136,7 @@ function previousClose(x) {
     let start = x.indexOf(str) + strLength 
     let end = start + 8
     let prevClose = x.slice(start, end).trim()
-    let prevCloseClean = prevClose.replace(regex,'').trim()
+    let prevCloseClean = prevClose.replace(/["A-Z_=:;<\/>"']/ig,'').trim()
     if(Number(prevCloseClean)) return prevCloseClean.toString()
     else return 'invalid'
 }
@@ -146,7 +146,7 @@ function getDaysRange(x) {
     let start = x.indexOf(str) + strLength + 0
     let end = start + 14
     let dayRange = x.slice(start, end).trim()
-    let dayRangeClean = dayRange.replace(regex,'').trim()
+    let dayRangeClean = dayRange.replace(/["A-Z_=:;<\/>"']/ig,'').trim()
     if(Number(dayRangeClean)) return dayRangeClean.toString()
     else return 'invalid'
 }
