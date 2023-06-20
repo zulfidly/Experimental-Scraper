@@ -82,7 +82,7 @@ function addEntryToTable(entry) {
 
 async function getRawData(dayQSE, dateQSE, timeQSE) {
     console.log('getRawData running');
-    return await fetch("https://www.bursamalaysia.com/bm/trade/trading_resources/listing_directory/company-profile?stock_code=1155")
+    fetch("https://www.bursamalaysia.com/bm/trade/trading_resources/listing_directory/company-profile?stock_code=1155")
        .then((response) => response.text())
        .then((data) => {
             let entry = {
@@ -190,6 +190,7 @@ function recalibrateClockForMsiaOfficeHours() {
 }
 
 function isWeekendOrPH(dayCurr, dateCurr, monthCurr, yearCurr) {
+    console.log(dayCurr, dateCurr, monthCurr, yearCurr);
     let isWeekend = dayCurr=='Sat'||dayCurr=='Sun' ? true : false
     let isPH = false
 
