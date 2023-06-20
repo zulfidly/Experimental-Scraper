@@ -94,7 +94,7 @@ async function getRawData(dayQSE, dateQSE, timeQSE) {
         "https://www.malaysiastock.biz/Corporate-Infomation.aspx?securityCode=0166",
         // { signal: controller.signal }
     )
-       .then((response) => response.text())
+    //    .then((response) => response.text())
        .then((data) => {
             let entry = {
                 "fields": {
