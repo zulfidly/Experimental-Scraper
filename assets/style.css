@@ -6,7 +6,7 @@
     display: none;
   }  
   * {
-    transition: color 0.3s, background-color 0.3s;
+    /* transition: color 0.3s, background-color 0.3s; */
     -ms-overflow-style: none;  /* Hide scrollbar for IE and Edge */
     scrollbar-width: none;  /* Hide scrollbar for Firefox */
     scroll-behavior: smooth;
@@ -14,7 +14,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  a, td, th, tr, caption, button, span {
+  a, p, td, th, tr, caption, button, span {
     color: var(--color-text)
   }
   #__nuxt {
@@ -81,7 +81,8 @@
     --chartarea-bg-color-dark: #282828;
     --chartarea-bg-color-light: #f2f2f2;
   
-  
+    --table-header-light: #fae1f2;
+    --table-header-dark: #612e50;
   }
   
   
@@ -104,6 +105,7 @@
     --chart-bg: var(--chart-bg-color-light);
     --chartarea-bg: var(--chartarea-bg-color-light);
     --chart-text: var(--chart-text-color-light);
+    --table-header: var(--table-header-light);  
   }
   
   @media (prefers-color-scheme: dark) {
@@ -122,6 +124,6 @@
       --chart-bg: var(--chart-bg-color-dark);
       --chartarea-bg: var(--chartarea-bg-color-dark);
       --chart-text: var(--chart-text-color-dark);
-  
+      --table-header: var(--table-header-dark);
     }
   }
