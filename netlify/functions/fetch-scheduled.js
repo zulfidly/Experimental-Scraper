@@ -163,5 +163,5 @@ const handler = async function(event, context) {
     })
 
 };
-exports.handler = schedule("12 * * * *", handler);   
-// exports.handler = schedule("30 18 * * 1-5", handler);   // Standard cron: “At 18:30 on every day-of-week from Monday through Friday.”
+// exports.handler = schedule("12 * * * *", handler);   
+exports.handler = schedule("30 18 * * 1-5", handler);   // Standard cron: “At 18:30 on every day-of-week from Monday through Friday.”
