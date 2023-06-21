@@ -146,6 +146,12 @@ const handler = async function(event, context) {
         }  
     }) // then() ends
     .catch((err)=> console.log('fetchERROR:', err))
+    .finally(()=> {
+        return {
+            statusCode: 200, 
+            body: JSON.stringify({msg:'finally promise settled'})
+        }
+    })
 };
-// exports.handler = schedule("8 * * * *", handler);   
-exports.handler = schedule("30 18 * * 1-5", handler);   // Standard cron: “At 18:30 on every day-of-week from Monday through Friday.”
+exports.handler = schedule("59 * * * *", handler);   
+// exports.handler = schedule("30 18 * * 1-5", handler);   // Standard cron: “At 18:30 on every day-of-week from Monday through Friday.”
