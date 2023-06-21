@@ -5,7 +5,7 @@ import publicHols from '../../public/publicholiday.json'
 // async function handler(event, context) {
 const handler = async function(event, context) {
     console.log("fetch scheduled function");
-    return await fetch("https://www.malaysiastock.biz/Corporate-Infomation.aspx?securityCode=0166")
+    await fetch("https://www.malaysiastock.biz/Corporate-Infomation.aspx?securityCode=0166")
     .then((response) => response.text())
     .then((data) => {
         Airtable.configure({ endpointUrl: 'https://api.airtable.com', apiKey: process.env.AT_TOKEN });
@@ -144,8 +144,20 @@ const handler = async function(event, context) {
             }
             return isPH
         }  
+        return {
+            statusCode: 200, 
+            body: JSON.stringify({msg:'finally promise settled'})
+        }
+
     }) // then() ends
-    .catch((err)=> console.log('fetchERROR:', err))
+    .catch((err)=> {
+        console.log('fetchERROR:', err)
+        return {
+            statusCode: 200, 
+            body: JSON.stringify({msg:'finally promise settled'})
+        }
+
+    })
     .finally(()=> {
         return {
             statusCode: 200, 
@@ -153,5 +165,5 @@ const handler = async function(event, context) {
         }
     })
 };
-exports.handler = schedule("59 * * * *", handler);   
+exports.handler = schedule("9 * * * *", handler);   
 // exports.handler = schedule("30 18 * * 1-5", handler);   // Standard cron: “At 18:30 on every day-of-week from Monday through Friday.”
