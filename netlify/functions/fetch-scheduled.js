@@ -144,26 +144,16 @@ const handler = async function(event, context) {
             }
             return isPH
         }  
-        return {
-            statusCode: 200, 
-            body: JSON.stringify({msg:'finally promise settled'})
-        }
-
     }) // then() ends
     .catch((err)=> {
         console.log('fetchERROR:', err)
-        return {
-            statusCode: 200, 
-            body: JSON.stringify({msg:'finally promise settled'})
-        }
+    })
+    .finally(()=> { console.log('finally() running'); })
 
-    })
-    .finally(()=> {
-        return {
-            statusCode: 200, 
-            body: JSON.stringify({msg:'finally promise settled'})
-        }
-    })
+    return {
+        statusCode: 200, 
+        body: JSON.stringify({msg:'finally promise settled'})
+    }
 };
-exports.handler = schedule("9 * * * *", handler);   
+exports.handler = schedule("17 * * * *", handler);   
 // exports.handler = schedule("30 18 * * 1-5", handler);   // Standard cron: “At 18:30 on every day-of-week from Monday through Friday.”
