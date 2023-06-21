@@ -2,7 +2,6 @@ import { schedule } from "@netlify/functions"
 import Airtable from 'airtable'
 import publicHols from '../../public/publicholiday.json'
 
-// async function handler(event, context) {
 const handler = async function(event, context) {
     console.log("fetch scheduled function");
     await fetch("https://www.malaysiastock.biz/Corporate-Infomation.aspx?securityCode=0166")
@@ -27,10 +26,10 @@ const handler = async function(event, context) {
         else {
             let datetemp = year +'-'+ month +'-'+ date
             let timetemp = hour +':'+ minute +':'+ second
-            getRawData(day, datetemp, timetemp, data)
+            return getRawData(day, datetemp, timetemp, data)
         }    
 
-        function getRawData(dayQSE, dateQSE, timeQSE, info) {
+        async function getRawData(dayQSE, dateQSE, timeQSE, info) {
             let entry = {
                 "fields": {
                     "Date": dateQSE,
@@ -46,21 +45,27 @@ const handler = async function(event, context) {
             } 
             entry.fields.JSON = JSON.stringify(entry)
             console.log('entrY :', entry);
-            addEntryToTable(entry) 
+            return await addEntryToTable(entry) 
         };
 
-        function addEntryToTable(entry) {
-            base(process.env.AT_TABLE1_ID)
-            .create([entry],
-                function(err, records) {        
-                    if (err) {
-                        console.error('ADD ENTRY ERROR', err, 'record error:', records||'noRecordError');
+        async function addEntryToTable(entry2) {
+            let promis = new Promise(function(resolve, reject) {
+                base(process.env.AT_TABLE1_ID)
+                .create([entry2],
+                    function(err, records) {        
+                        if (err) {
+                            console.error('ADD ENTRY ERROR', err, 'record error:', records||'noRecordError');
+                            reject(err)
+                        } else {
+                            records.forEach(function (record) {
+                                console.log('entrY added:', record.getId());
+                                resolve({ statusCode: 200, 'record': record.getId() })
+                            });
+                        }
                     }
-                    records.forEach(function (record) {
-                        console.log('entrY added:', record.getId());
-                    });
-                }
-            )
+                )
+            })
+            return await promis
         }        
         
         function getOpen(x) {
@@ -147,13 +152,14 @@ const handler = async function(event, context) {
     }) // then() ends
     .catch((err)=> {
         console.log('fetchERROR:', err)
+        return { statusCode: 200 }
     })
     .finally(()=> { console.log('finally() running'); })
 
-    return {
-        statusCode: 200, 
-        body: JSON.stringify({msg:'finally promise settled'})
-    }
+    // return {
+    //     statusCode: 200, 
+    //     body: JSON.stringify({msg:'finally promise settled'})
+    // }
 };
-exports.handler = schedule("17 * * * *", handler);   
+exports.handler = schedule("45 * * * *", handler);   
 // exports.handler = schedule("30 18 * * 1-5", handler);   // Standard cron: “At 18:30 on every day-of-week from Monday through Friday.”
