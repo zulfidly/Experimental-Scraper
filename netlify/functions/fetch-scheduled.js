@@ -4,9 +4,9 @@ import publicHols from '../../public/publicholiday.json'
 
 const handler = async function(event, context) {
     console.log("fetch scheduled function");
-    await fetch("https://www.malaysiastock.biz/Corporate-Infomation.aspx?securityCode=0166")
+    return await fetch("https://www.malaysiastock.biz/Corporate-Infomation.aspx?securityCode=0166")
     .then((response) => response.text())
-    .then((data) => {
+    .then(async(data) => {
         Airtable.configure({ endpointUrl: 'https://api.airtable.com', apiKey: process.env.AT_TOKEN });
         var base = new Airtable.base(process.env.AT_BASE_ID);
         const days = ["Sun", "Mon", "Tue", "Wed", "Thurs", "Fri", "Sat"];
@@ -26,7 +26,7 @@ const handler = async function(event, context) {
         else {
             let datetemp = year +'-'+ month +'-'+ date
             let timetemp = hour +':'+ minute +':'+ second
-            return getRawData(day, datetemp, timetemp, data)
+            return await getRawData(day, datetemp, timetemp, data)
         }    
 
         async function getRawData(dayQSE, dateQSE, timeQSE, info) {
@@ -59,7 +59,7 @@ const handler = async function(event, context) {
                         } else {
                             records.forEach(function (record) {
                                 console.log('entrY added:', record.getId());
-                                resolve({ statusCode: 200, 'record': record.getId() })
+                                resolve({ statusCode: 200, body: JSON.stringify({ entry: record.getId() }) })
                             });
                         }
                     }
@@ -152,7 +152,7 @@ const handler = async function(event, context) {
     }) // then() ends
     .catch((err)=> {
         console.log('fetchERROR:', err)
-        return { statusCode: 200 }
+        return { statusCode: 500, body: JSON.stringify({ error: 'finally promise settled'}) }
     })
     .finally(()=> { 
         console.log('finally() running'); 
@@ -163,5 +163,5 @@ const handler = async function(event, context) {
     })
 
 };
-exports.handler = schedule("51 * * * *", handler);   
+exports.handler = schedule("12 * * * *", handler);   
 // exports.handler = schedule("30 18 * * 1-5", handler);   // Standard cron: “At 18:30 on every day-of-week from Monday through Friday.”
