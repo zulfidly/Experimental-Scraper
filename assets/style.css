@@ -2,11 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-*::-webkit-scrollbar { /* hide scrollbar in Chrome */
-    display: none;
-  }  
+  *::-webkit-scrollbar { /* hide scrollbar in Chrome */
+      display: none;
+    }  
   * {
-    /* transition: color 0.3s, background-color 0.3s; */
     -ms-overflow-style: none;  /* Hide scrollbar for IE and Edge */
     scrollbar-width: none;  /* Hide scrollbar for Firefox */
     scroll-behavior: smooth;
@@ -14,19 +13,22 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+
   a, p, td, th, tr, caption, button, span {
     color: var(--color-text)
   }
+
   #__nuxt {
     -ms-overflow-style: none;  /* hide scrollbar in IE and Edge */
     scrollbar-width: none;  /* hide scrollbar in Firefox */
-    /* max-width: 1280px; */
-    /* box-sizing: border-box; */
     width: 100vw;
     height: 100svh;
     margin: 0 auto;
     padding: 1rem;
     font-weight: normal;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   body {
@@ -44,8 +46,7 @@
       max-width: 1280px;
       padding: 1rem;
     }
-  }
-    
+  }    
 
   :root {
     --vt-c-white: #ffffff;
@@ -83,11 +84,10 @@
   
     --table-header-light: #fae1f2;
     --table-header-dark: #612e50;
-  }
-  
+  }  
   
   /* semantic color variables for this project */
-  :root {
+  html {
     --color-background: var(--vt-c-white);
     --color-background-soft: var(--vt-c-white-soft);
     --color-background-mute: var(--vt-c-white-mute);
@@ -106,24 +106,24 @@
     --chartarea-bg: var(--chartarea-bg-color-light);
     --chart-text: var(--chart-text-color-light);
     --table-header: var(--table-header-light);  
+    --color-soft-oppo: var(--vt-c-black-soft);
   }
   
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --color-background: var(--vt-c-black);
-      --color-background-soft: var(--vt-c-black-soft);
-      --color-background-mute: var(--vt-c-black-mute);
-  
-      --color-border: var(--vt-c-divider-dark-2);
-      --color-border-hover: var(--vt-c-divider-dark-1);
-  
-      --color-heading: var(--vt-c-text-dark-1);
-      --color-text: var(--vt-c-text-dark-2);
-  
-      --color-bg-convert-btn: var(--convert-btn-dark);
-      --chart-bg: var(--chart-bg-color-dark);
-      --chartarea-bg: var(--chartarea-bg-color-dark);
-      --chart-text: var(--chart-text-color-dark);
-      --table-header: var(--table-header-dark);
-    }
+  html.dark  {
+    --color-background: var(--vt-c-black);
+    --color-background-soft: var(--vt-c-black-soft);
+    --color-background-mute: var(--vt-c-black-mute);
+
+    --color-border: var(--vt-c-divider-dark-2);
+    --color-border-hover: var(--vt-c-divider-dark-1);
+
+    --color-heading: var(--vt-c-text-dark-1);
+    --color-text: var(--vt-c-text-dark-2);
+
+    --color-bg-convert-btn: var(--convert-btn-dark);
+    --chart-bg: var(--chart-bg-color-dark);
+    --chartarea-bg: var(--chartarea-bg-color-dark);
+    --chart-text: var(--chart-text-color-dark);
+    --table-header: var(--table-header-dark);
+    --color-soft-oppo: var(--vt-c-white-soft);
   }

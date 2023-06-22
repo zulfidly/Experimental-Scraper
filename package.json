@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@netlify/functions": "^1.6.0",
+    "@vueuse/core": "^10.2.0",
     "airtable": "^0.12.1",
     "node-fetch": "^3.3.1"
   }

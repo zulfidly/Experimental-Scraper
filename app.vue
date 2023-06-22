@@ -1,10 +1,18 @@
 <script setup>
+  import { useDark, useToggle } from '@vueuse/core'
+  import { useEventListener } from '@vueuse/core'
+  import { useElementVisibility } from '@vueuse/core'
   const clockServerRef = ref(0)
   const clockCalibratedForClient = ref(0)
   const getHeight = ref('height:100px;')
   let clock_ph = await useFetch('/api/serverClock')
   let table1 = await useFetch('/api/gettable')
   const entries = table1.data._rawValue
+  const nuxtApp = useNuxtApp()
+  const listTR = ref([])
+  const isDark = useDark()
+  nuxtApp.provide("isDark", ()=> isDark);
+  const toggleDark = useToggle(isDark)
 
   onMounted(()=> {
     console.log('app.vue mounted');
@@ -13,21 +21,24 @@
     clockServerRef.value = clock_ph.data._rawValue.clock
     clockCalibratedForClient.value = clock_ph.data._rawValue.clock.calibrated
     // console.log(entries);
-    window.addEventListener("resize", () => {
+    getHeight.value = `height:${window.innerHeight-32}px;`
+    useEventListener(window, 'resize', (event) => {
       getHeight.value = `height:${window.innerHeight-32}px;`
     })
-    getHeight.value = `height:${window.innerHeight-32}px;`
   })
   useHead({
     title: 'Web Scraping For Fun',
+    script: `if(localStorage.getItem('vueuse-color-scheme')=='dark') document.querySelector('html').classList.add('dark')`,
     htmlAttrs:{ lang:'en' },
   })
+
 </script>
 
 <template>  
-  <div :style="getHeight" class="relative w-full  flex flex-col justify-evenly items-center border-0 lg:border lg:rounded-xl lg:shadow-md transition-all duration-300">
-    <p class="md:hidden lg:block p-3 fixed lg:absolute left-0 bottom-0 text-sm italic font-thin">* figures shown in MYR</p>
-      <p class="md:hidden lg:block mb-4 text-center text-md lg:text-lg font-normal lg:font-bold tracking-wide">
+  <div :style="getHeight" class="relative w-full flex flex-col justify-evenly items-center border-0 overflow-clip lg:border lg:rounded-xl lg:shadow-md transition-all duration-700">
+    <ColorModeSwitch @click="toggleDark()" />
+    <p class="sm:hidden lg:block p-3 fixed lg:absolute left-0 bottom-0 text-sm italic font-thin">* figures shown in MYR</p>
+      <p class="sm:hidden lg:block mb-4 text-center text-md lg:text-lg font-normal lg:font-bold tracking-wide">
         Daily statistics for
         <a class="underline decoration-dotted underline-offset-4" href="https://www.malaysiastock.biz/Corporate-Infomation.aspx?securityCode=0166" target="_blank" aria-label="visit Inari website">
           Inari Amertron Bhd
@@ -52,7 +63,8 @@
           </thead>
           
           <tbody>
-            <tr v-for="(x, ind) in entries" :key="'row'+ind" class="[&>*]:mx-auto [&>*]:even:bg-[var(--color-background-soft)] [&>*]:p-0.5 [&>*]:lg:p-2 [&>*]:text-center [&>*]:font-light [&>*]:lg:font-medium">
+            <tr v-for="(x, ind) in entries" ref="listTR" :key="'row'+ind" class="[&>*]:mx-auto [&>*]:even:bg-[var(--color-background-soft)] [&>*]:p-0.5 [&>*]:lg:p-2 [&>*]:text-center [&>*]:font-light [&>*]:lg:font-medium"
+              >
               <td class="lg:hidden">{{ new Intl.DateTimeFormat('en-GB').format(new Date(x.fields.Date)).slice(0, 5) }}</td>
               <td class="hidden lg:table-cell">{{ new Intl.DateTimeFormat('en-GB').format(new Date(x.fields.Date)) }}</td>
               <td class="hidden lg:table-cell">{{ x.fields.Day }}</td>
@@ -66,7 +78,7 @@
         </table>  
       </div>
 
-      <section class="md:hidden lg:block place-self-end mt-4 lg:mr-6">
+      <section class="sm:hidden lg:block place-self-end mt-4 lg:mr-6">
         <div class="flex gap-4 lg:gap-12">
           <a class="px-3 m-auto font-light border border-[var(--color-border)] rounded-lg bg-[var(--color-background-mute)]" href="https://portfolio-fidly.netlify.app/" target="_blank" aria-label="visit portfolio">
             coded by fidly

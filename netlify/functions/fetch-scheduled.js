@@ -161,7 +161,5 @@ const handler = async function(event, context) {
             body: JSON.stringify({msg:'finally promise settled'})
         }
     })
-
 };
-// exports.handler = schedule("12 * * * *", handler);   
-exports.handler = schedule("30 18 * * 1-5", handler);   // Standard cron: “At 18:30 on every day-of-week from Monday through Friday.”
+exports.handler = schedule("30 5,10 * * 1-5", handler);   // Standard cron: “At minute 30 past hour 5 and 10 on every day-of-week from Monday through Friday.”   https://crontab.guru/

@@ -19,20 +19,18 @@
         --at-light-p5: rgba(0, 0, 0, 0.25);
     }
 
-    :root {
+    html {
         --at-p1: var(--at-light-p1);
         --at-p2: var(--at-light-p2);
         --at-p3: var(--at-light-p3);
         --at-p4: var(--at-light-p4);
         --at-p5: var(--at-light-p5);
     }
-    @media (prefers-color-scheme: dark) {
-    :root {
+    html.dark {
         --at-p1: var(--color-text);
         --at-p2: var(--color-text);
         --at-p3: var(--color-text);
         --at-p4: var(--color-text);
         --at-p5: var(--color-text);    
     }
-  }
 </style>
