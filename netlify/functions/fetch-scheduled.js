@@ -22,7 +22,22 @@ const handler = async function(event, context) {
         let year = timedate.getUTCFullYear().toString().padStart(2, 0)
         let second = timedate.getUTCSeconds().toString().padStart(2, 0)
         console.log(day, ':', date +'-'+ month +'-'+ year, '  > Time :', hour +':'+ minute +':'+ second, '|', timedate );   
-        if(isWeekendOrPH(date, month, year)) return
+        if(isPublicHols(date, month, year)) {            
+            let entryPH = {
+                "fields": {
+                    "Date": year +'-'+ month +'-'+ date,
+                    "Day": "Public Holiday",
+                    "Time24h": "-",
+                    "PreviousClose": "-",
+                    "LastDone": "-",
+                    "Open": "-",
+                    "DayRange": "-",
+                    "JSON": "-",
+                    "servClock": new Date(),
+                }
+            } 
+            return await addEntryToTable(entryPH) 
+        }
         else {
             let datetemp = year +'-'+ month +'-'+ date
             let timetemp = hour +':'+ minute +':'+ second
@@ -119,7 +134,7 @@ const handler = async function(event, context) {
             return new Date(newCl)
         }
         
-        function isWeekendOrPH(dateCurr, monthCurr, yearCurr) {
+        function isPublicHols(dateCurr, monthCurr, yearCurr) {
             let isPH = false        
             phSplit.forEach((obj, ind)=> {
                 let temp = undefined
@@ -130,23 +145,6 @@ const handler = async function(event, context) {
                 else temp = false
                 isPH = temp||isPH        
             })
-
-            if(isPH) {
-                let entryPH = {
-                    "fields": {
-                        "Date": year +'-'+ month +'-'+ date,
-                        "Day": "PH",
-                        "Time24h": "-",
-                        "PreviousClose": "-",
-                        "LastDone": "-",
-                        "Open": "-",
-                        "DayRange": "-",
-                        "JSON": "-",
-                        "servClock": new Date(),
-                    }
-                } 
-                addEntryToTable(entryPH)
-            }
             return isPH
         }  
     }) // then() ends
