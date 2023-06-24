@@ -23,6 +23,7 @@
 - ```return { statusCode: 200 }``` or ```return { statusCode: 500 }``` required
 - create directory at root : ```netlify/functions```
 - Note that scheduled functions don’t work with payloads or POST request data. When you need to work with payloads, you should use either a synchronous or background function instead.
+- Background Functions feature is not available in free Starter plans
 - Observed : maximum 10seconds server compute time per execution 
 - server cannot hold data permanently
 
