@@ -9,8 +9,8 @@ const handler = async function(event, context) {
     .then(async(data) => {
         Airtable.configure({ endpointUrl: 'https://api.airtable.com', apiKey: process.env.AT_TOKEN });
         var base = new Airtable.base(process.env.AT_BASE_ID);
-        const days = ["Sun", "Mon", "Tue", "Wed", "Thurs", "Fri", "Sat"];
-        const months = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"];
+        const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+        const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         const phSplit = publicHols.map((x)=> { return x.date.split("-") })
         const regex = new RegExp(/["A-Z_=:;<\/>"']/, 'ig')
         let timedate = recalibrateClockForMsiaOfficeHours()           
@@ -26,7 +26,7 @@ const handler = async function(event, context) {
             let entryPH = {
                 "fields": {
                     "Date": year +'-'+ month +'-'+ date,
-                    "Day": "Public Holiday",
+                    "Day": "PubHol",
                     "Time24h": "-",
                     "PreviousClose": "-",
                     "LastDone": "-",
@@ -70,7 +70,7 @@ const handler = async function(event, context) {
                     function(err, records) {        
                         if (err) {
                             console.error('ADD ENTRY ERROR', err, 'record error:', records||'noRecordError');
-                            reject(err)
+                            reject((err)=> { return { statusCode: 500, body: JSON.stringify({ error: err }) }})
                         } else {
                             records.forEach(function (record) {
                                 console.log('entrY added:', record.getId());

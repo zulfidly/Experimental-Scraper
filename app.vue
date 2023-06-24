@@ -7,20 +7,21 @@
   const getHeight = ref('height:100px;')
   let clock_ph = await useFetch('/api/serverClock')
   let table1 = await useFetch('/api/gettable')
-  const entries = table1.data._rawValue
   const nuxtApp = useNuxtApp()
   const listTR = ref([])
   const isDark = useDark()
   nuxtApp.provide("isDark", ()=> isDark);
   const toggleDark = useToggle(isDark)
+  const records = ref(undefined)
 
   onMounted(()=> {
+    records.value = table1.data._rawValue.reverse()
     console.log('app.vue mounted');
     // console.log('clock', clock_ph.data._rawValue.clock);
     // console.log('PH', clock_ph.data._rawValue.publicHols);
     clockServerRef.value = clock_ph.data._rawValue.clock
     clockCalibratedForClient.value = clock_ph.data._rawValue.clock.calibrated
-    // console.log(entries);
+    // console.log(entries.reverse());
     getHeight.value = `height:${window.innerHeight-32}px;`
     useEventListener(window, 'resize', (event) => {
       getHeight.value = `height:${window.innerHeight-32}px;`
@@ -53,7 +54,7 @@
           <thead class="sticky top-0 bg-[var(--table-header)]">
             <tr class="[&>*]:mx-auto [&>*]:lg:p-2 [&>*]:text-md [&>*]:font-light [&>*]:lg:font-bold [&>*]:text-center">
               <th>Date</th>
-              <th class="hidden lg:table-cell">Day</th>
+              <th class="hidden md:table-cell">Day</th>
               <th class="hidden md:table-cell">Time<br>Read</th>
               <th class="text-justify">Previous<br>Close </th>
               <th>Open</th>
@@ -63,11 +64,11 @@
           </thead>
           
           <tbody>
-            <tr v-for="(x, ind) in entries" ref="listTR" :key="'row'+ind" class="[&>*]:mx-auto [&>*]:even:bg-[var(--color-background-soft)] [&>*]:p-0.5 [&>*]:lg:p-2 [&>*]:text-center [&>*]:font-light [&>*]:lg:font-medium"
+            <tr v-for="(x, ind) in records" ref="listTR" :key="'row'+ind" class="[&>*]:mx-auto [&>*]:even:bg-[var(--color-background-soft)] [&>*]:p-0.5 [&>*]:lg:p-2 [&>*]:text-center [&>*]:font-light [&>*]:lg:font-medium"
               >
               <td class="lg:hidden">{{ new Intl.DateTimeFormat('en-GB').format(new Date(x.fields.Date)).slice(0, 5) }}</td>
               <td class="hidden lg:table-cell">{{ new Intl.DateTimeFormat('en-GB').format(new Date(x.fields.Date)) }}</td>
-              <td class="hidden lg:table-cell">{{ x.fields.Day }}</td>
+              <td class="hidden md:table-cell">{{ x.fields.Day }}</td>
               <td class="hidden md:table-cell">{{ x.fields.Time24h }}</td>
               <td>{{ x.fields.PreviousClose }}</td>
               <td>{{ x.fields.Open }}</td>
