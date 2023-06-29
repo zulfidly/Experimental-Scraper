@@ -13,6 +13,7 @@
     -webkit-font-smoothing: antialiased;
     -webkit-tap-highlight-color: transparent;
     -moz-osx-font-smoothing: grayscale;
+    transition: opacity 0.3s ease-out, background-color 0.3s ease-out;
   }
 
   a, p, td, th, tr, caption, button, span {

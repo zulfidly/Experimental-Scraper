@@ -26,7 +26,7 @@ const handler = async function(event, context) {
             let entryPH = {
                 "fields": {
                     "Date": year +'-'+ month +'-'+ date,
-                    "Day": "PubHol",
+                    "Day": "Pub.Hol",
                     "Time24h": "-",
                     "PreviousClose": "-",
                     "LastDone": "-",
@@ -150,7 +150,7 @@ const handler = async function(event, context) {
     }) // then() ends
     .catch((err)=> {
         console.log('fetchERROR:', err)
-        return { statusCode: 500, body: JSON.stringify({ error: 'finally promise settled'}) }
+        return { statusCode: 500, body: JSON.stringify({ error: err}) }
     })
     .finally(()=> { 
         console.log('finally() running'); 
@@ -160,4 +160,4 @@ const handler = async function(event, context) {
         }
     })
 };
-exports.handler = schedule("30 5,10 * * 1-5", handler);   // Standard cron: “At minute 30 past hour 5 and 10 on every day-of-week from Monday through Friday.”   https://crontab.guru/
+exports.handler = schedule("30 10 * * 1-5", handler);   // Standard UTC cron: “At 10:30 on every day-of-week from Monday through Friday.”   https://crontab.guru/

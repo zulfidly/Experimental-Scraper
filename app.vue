@@ -11,17 +11,14 @@
   const listTR = ref([])
   const isDark = useDark()
   nuxtApp.provide("isDark", ()=> isDark);
-  const toggleDark = useToggle(isDark)
+  const toggleDark = useToggle(isDark)      // pending use
   const records = ref(undefined)
 
   onMounted(()=> {
     records.value = table1.data._rawValue.reverse()
     console.log('app.vue mounted');
-    // console.log('clock', clock_ph.data._rawValue.clock);
-    // console.log('PH', clock_ph.data._rawValue.publicHols);
     clockServerRef.value = clock_ph.data._rawValue.clock
     clockCalibratedForClient.value = clock_ph.data._rawValue.clock.calibrated
-    // console.log(entries.reverse());
     getHeight.value = `height:${window.innerHeight-32}px;`
     useEventListener(window, 'resize', (event) => {
       getHeight.value = `height:${window.innerHeight-32}px;`
@@ -32,7 +29,6 @@
     script: `if(localStorage.getItem('vueuse-color-scheme')=='dark') document.querySelector('html').classList.add('dark')`,
     htmlAttrs:{ lang:'en' },
   })
-
 </script>
 
 <template>  

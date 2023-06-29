@@ -1,5 +1,5 @@
 import publicHols from '../../public/publicholiday.json'      // gazetted phSplit only
-const days = ["Sun", "Mon", "Tue", "Wed", "Thurs", "Fri", "Sat"];
+const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 export default defineEventHandler(async(event) => {
     let clock = {
