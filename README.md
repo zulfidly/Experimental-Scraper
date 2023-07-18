@@ -6,6 +6,13 @@
 - ```npm install```
 - ```npm run dev -- -o``` (this opens new browser)
 
+## install [Pinia](https://pinia.vuejs.org/ssr/nuxt.html)
+- add ```overrides``` added to package.json
+- ```npm install pinia @pinia/nuxt```
+- ```export const useMainStorePinia = defineStore('appStore', {})```, dir: ```./composables/appStore.js``` 
+- see ```@pinia/nuxt``` in nuxt.config.js
+- see ```./composables/appStore.js```
+
 ## Adding Tailwind CSS 
 - ```npm install -D @nuxtjs/tailwindcss```
 - ```npx tailwindcss init -p``` (create tailwindcss.config.js & postcss.config.js inside root folder)
@@ -26,7 +33,7 @@
 - Note that scheduled functions don’t work with payloads or POST request data. When you need to work with payloads, you should use either a synchronous or background function instead.
 - Background Functions feature is not available in free Starter plans
 - Observed : maximum 10seconds server compute time per execution 
-- server cannot hold data permanently
+- Netlify server cannot hold data permanently
 
 ## add VueUse for access to Vue3 friendly composables
 - ```npm i -D @vueuse/nuxt @vueuse/core```
@@ -43,9 +50,3 @@
 - To exclude files from formatting, create a ```.prettierignore``` file in the root of your project. 
 - ```.prettierignore``` uses (gitignore syntax)[https://git-scm.com/docs/gitignore#_pattern_format]
 
-## install [Pinia](https://pinia.vuejs.org/ssr/nuxt.html)
-- add ```overrides``` added to package.json
-- ```npm install pinia @pinia/nuxt```
-- ```export const useMainStorePinia = defineStore('appStore', {})```, dir: ```./composables/appStore.js``` 
-- see ```@pinia/nuxt``` in nuxt.config.js
-- see ```./composables/appStore.js```

@@ -45,11 +45,11 @@
     </p>
     
     <TileHeader 
-      v-show="!appStore.userScr.isMobileAndLandscape || appStore.isDesktop"
+      v-if="!appStore.userScr.isMobileAndLandscape || appStore.isDesktop"
     />
 
     <ColorModeSwitch
-      v-show="!appStore.userScr.isMobileAndLandscape || appStore.isDesktop"
+      v-if="!appStore.userScr.isMobileAndLandscape || appStore.isDesktop"
       :is-dark-user="isDarkUser"
       @click="toggleDark()"
       class="mr-4 lg:mr-8 place-self-end"
@@ -61,7 +61,7 @@
       :isDesktop="appStore.isDesktop"
     />
     <TileFooter 
-      v-show="!appStore.userScr.isMobileAndLandscape || appStore.isDesktop"
+      v-if="!appStore.userScr.isMobileAndLandscape || appStore.isDesktop"
     />
   </div>  
 </template>
