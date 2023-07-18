@@ -3,14 +3,14 @@ import Airtable from 'airtable'
 import publicHols from '../../public/publicholiday.json'
 
 const handler = async function(event, context) {
-    console.log("fetch scheduled function");
+    // console.log("fetch scheduled function");
     return await fetch("https://www.malaysiastock.biz/Corporate-Infomation.aspx?securityCode=0166")
     .then((response) => response.text())
     .then(async(data) => {
         Airtable.configure({ endpointUrl: 'https://api.airtable.com', apiKey: process.env.AT_TOKEN });
         var base = new Airtable.base(process.env.AT_BASE_ID);
         const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-        const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        // const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         const phSplit = publicHols.map((x)=> { return x.date.split("-") })
         const regex = new RegExp(/["A-Z_=:;<\/>"']/, 'ig')
         let timedate = recalibrateClockForMsiaOfficeHours()           
@@ -31,7 +31,7 @@ const handler = async function(event, context) {
                     "PreviousClose": "-",
                     "LastDone": "-",
                     "Open": "-",
-                    "DayRange": "-",
+                    "DayRange": "PubHol",
                     "JSON": "-",
                     "servClock": new Date(),
                 }
@@ -59,7 +59,7 @@ const handler = async function(event, context) {
                 }
             } 
             entry.fields.JSON = JSON.stringify(entry)
-            console.log('entrY :', entry);
+            // console.log('entrY :', entry);
             return await addEntryToTable(entry) 
         };
 
@@ -73,7 +73,7 @@ const handler = async function(event, context) {
                             reject((err)=> { return { statusCode: 500, body: JSON.stringify({ error: err }) }})
                         } else {
                             records.forEach(function (record) {
-                                console.log('entrY added:', record.getId());
+                                // console.log('entrY added:', record.getId());
                                 resolve({ statusCode: 200, body: JSON.stringify({ entry: record.getId() }) })
                             });
                         }
@@ -152,12 +152,12 @@ const handler = async function(event, context) {
         console.log('fetchERROR:', err)
         return { statusCode: 500, body: JSON.stringify({ error: err}) }
     })
-    .finally(()=> { 
-        console.log('finally() running'); 
-        return {
-            statusCode: 200, 
-            body: JSON.stringify({msg:'finally promise settled'})
-        }
-    })
+    // .finally(()=> { 
+    //     console.log('finally() running'); 
+    //     return {
+    //         statusCode: 200, 
+    //         body: JSON.stringify({msg:'finally promise settled'})
+    //     }
+    // })
 };
 exports.handler = schedule("30 10 * * 1-5", handler);   // Standard UTC cron: “At 10:30 on every day-of-week from Monday through Friday.”   https://crontab.guru/

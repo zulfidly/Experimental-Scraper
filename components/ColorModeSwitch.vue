@@ -3,7 +3,7 @@
 </script>
 
 <template>
-    <div class="absolute right-0 top-0 m-4 rounded-xl ">
+    <div class="m-1 rounded-xl ">
         <button class="vt-switch lg:hover:border lg:hover:border-[var(--color-soft-oppo)]" type="button" role="switch" aria-label="Toggle dark mode" :aria-checked="isDark?'true':'false'">
             <span class="vt-switch-check">
                 <span class=" vt-switch-icon">
