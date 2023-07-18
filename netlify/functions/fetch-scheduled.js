@@ -3,14 +3,13 @@ import Airtable from 'airtable'
 import publicHols from '../../public/publicholiday.json'
 
 const handler = async function(event, context) {
-    // console.log("fetch scheduled function");
     return await fetch("https://www.malaysiastock.biz/Corporate-Infomation.aspx?securityCode=0166")
     .then((response) => response.text())
     .then(async(data) => {
         Airtable.configure({ endpointUrl: 'https://api.airtable.com', apiKey: process.env.AT_TOKEN });
         var base = new Airtable.base(process.env.AT_BASE_ID);
         const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-        // const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
         const phSplit = publicHols.map((x)=> { return x.date.split("-") })
         const regex = new RegExp(/["A-Z_=:;<\/>"']/, 'ig')
         let timedate = recalibrateClockForMsiaOfficeHours()           
@@ -21,7 +20,7 @@ const handler = async function(event, context) {
         let month = (timedate.getUTCMonth() + 1).toString().padStart(2, 0)
         let year = timedate.getUTCFullYear().toString().padStart(2, 0)
         let second = timedate.getUTCSeconds().toString().padStart(2, 0)
-        console.log(day, ':', date +'-'+ month +'-'+ year, '  > Time :', hour +':'+ minute +':'+ second, '|', timedate );   
+        // console.log(day, ':', date +'-'+ month +'-'+ year, '  > Time :', hour +':'+ minute +':'+ second, '|', timedate );   
         if(isPublicHols(date, month, year)) {            
             let entryPH = {
                 "fields": {
@@ -122,7 +121,7 @@ const handler = async function(event, context) {
             let end = start + 14
             let dayRange = x.slice(start, end).trim()
             let dayRangeClean = dayRange.replace(/["A-Z_=:;<\/>"']/ig,'').trim()
-            return dayRangeClean
+            return dayRangeClean || 'invalid'
             // if(Number(dayRangeClean)) return dayRangeClean.toString()
             // else return 'invalid'
         }        

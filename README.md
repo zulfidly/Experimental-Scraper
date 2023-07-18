@@ -29,10 +29,23 @@
 - server cannot hold data permanently
 
 ## add VueUse for access to Vue3 friendly composables
-- ```npm i @vueuse/core```
+- ```npm i -D @vueuse/nuxt @vueuse/core```
 - use of ```useDark()``` & ```useToggle()``` to allow manual color mode switching, indirect calls of ```useLocalStorage()``` to remember user manual preferences
 - use of ```useEventListener()``` in place of ```window.addEventListener()```
 
 ## 'dark' class 
 - see ```darkMode: 'class'```, inside tailwind.config.js
 - see ```dark:text-[var(--color-text)]``` like syntaxes
+
+## install Prettier
+- ```npm install --save-dev --save-exact prettier```
+- Then, create an empty config file to let editors and other tools know you are using Prettier: ```echo {}> .prettierrc.json```
+- To exclude files from formatting, create a ```.prettierignore``` file in the root of your project. 
+- ```.prettierignore``` uses (gitignore syntax)[https://git-scm.com/docs/gitignore#_pattern_format]
+
+## install [Pinia](https://pinia.vuejs.org/ssr/nuxt.html)
+- add ```overrides``` added to package.json
+- ```npm install pinia @pinia/nuxt```
+- ```export const useMainStorePinia = defineStore('appStore', {})```, dir: ```./composables/appStore.js``` 
+- see ```@pinia/nuxt``` in nuxt.config.js
+- see ```./composables/appStore.js```
