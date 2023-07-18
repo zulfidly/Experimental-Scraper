@@ -20,7 +20,7 @@ const handler = async function(event, context) {
         let month = (timedate.getUTCMonth() + 1).toString().padStart(2, 0)
         let year = timedate.getUTCFullYear().toString().padStart(2, 0)
         let second = timedate.getUTCSeconds().toString().padStart(2, 0)
-        // console.log(day, ':', date +'-'+ month +'-'+ year, '  > Time :', hour +':'+ minute +':'+ second, '|', timedate );   
+        console.log(day, ':', date +'-'+ month +'-'+ year, '  > Time :', hour +':'+ minute +':'+ second, '|', timedate );   
         if(isPublicHols(date, month, year)) {            
             let entryPH = {
                 "fields": {
@@ -151,12 +151,5 @@ const handler = async function(event, context) {
         console.log('fetchERROR:', err)
         return { statusCode: 500, body: JSON.stringify({ error: err}) }
     })
-    // .finally(()=> { 
-    //     console.log('finally() running'); 
-    //     return {
-    //         statusCode: 200, 
-    //         body: JSON.stringify({msg:'finally promise settled'})
-    //     }
-    // })
 };
 exports.handler = schedule("30 10 * * 1-5", handler);   // Standard UTC cron: “At 10:30 on every day-of-week from Monday through Friday.”   https://crontab.guru/
