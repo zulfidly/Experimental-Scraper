@@ -14,7 +14,7 @@ const props = defineProps({
         <tr class="[&>*]:mx-auto [&>*]:lg:p-2 [&>*]:text-md [&>*]:font-light [&>*]:lg:font-bold [&>*]:text-center">
           <th>Date</th>
           <th :class="[isMobileAndLandscape || isDesktop ? 'table-cell' : 'hidden']">Day</th>
-          <th :class="[isMobileAndLandscape || isDesktop ? 'table-cell' : 'hidden']">Time Read <br /> (GMT+8)</th>
+          <th :class="[isMobileAndLandscape || isDesktop ? 'table-cell' : 'hidden']">Updated <br /> (GMT+8)</th>
           <th class="text-justify">Previous<br>Close </th>
           <th>Open</th>
           <th>Day's <br>Range</th>

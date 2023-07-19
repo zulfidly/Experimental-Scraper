@@ -16,7 +16,7 @@
 ## Adding Tailwind CSS 
 - ```npm install -D @nuxtjs/tailwindcss```
 - ```npx tailwindcss init -p``` (create tailwindcss.config.js & postcss.config.js inside root folder)
-- see edits > nuxt.config.ts
+- see edits > nuxt.config.js
 
 ## deleted /server/tsconfig.json, content as below
 - ```{"extends": "../.nuxt/tsconfig.server.json"}```
@@ -43,10 +43,3 @@
 ## 'dark' class 
 - see ```darkMode: 'class'```, inside tailwind.config.js
 - see ```dark:text-[var(--color-text)]``` like syntaxes
-
-## install Prettier
-- ```npm install --save-dev --save-exact prettier```
-- Then, create an empty config file to let editors and other tools know you are using Prettier: ```echo {}> .prettierrc.json```
-- To exclude files from formatting, create a ```.prettierignore``` file in the root of your project. 
-- ```.prettierignore``` uses (gitignore syntax)[https://git-scm.com/docs/gitignore#_pattern_format]
-
