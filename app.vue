@@ -1,15 +1,16 @@
 <script setup>
 const appStore = useMainStorePinia()
 const getHeight = ref('height:200px;')
-let table1 = await useFetch('/api/gettable')
 const isDarkUser = useDark()
 const toggleDark = useToggle(isDarkUser)      // pending use
 const records = ref([])
+const { data: destructuredData } = await useFetch('/api/gettable')
 
 onMounted(() => {
-  records.value = table1.data.value.reverse()
   console.log('app.vue mounted');
+  records.value = destructuredData.value.reverse()
   getHeight.value = `height:${window.innerHeight - 32}px;`
+  updateUserScreenPropertiesOnMounted()
   useEventListener(window, 'resize', (event) => {
     getHeight.value = `height:${window.innerHeight - 32}px;`
     updateUserScreenPropertiesOnMounted()
@@ -17,7 +18,6 @@ onMounted(() => {
   useEventListener(window.matchMedia("(prefers-color-scheme:dark)"), 'change', () => {
     updateUserScreenPropertiesOnMounted()
   })
-  updateUserScreenPropertiesOnMounted()
 })
 useHead({
   title: 'Web Scraping For Fun',

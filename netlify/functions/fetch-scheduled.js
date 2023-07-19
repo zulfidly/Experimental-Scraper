@@ -153,3 +153,4 @@ const handler = async function(event, context) {
     })
 };
 exports.handler = schedule("30 10 * * 1-5", handler);   // Standard UTC cron: “At 10:30 on every day-of-week from Monday through Friday.”   https://crontab.guru/
+// equivalent to 18:30 Malaysian time
