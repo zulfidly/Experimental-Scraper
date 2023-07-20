@@ -9,6 +9,7 @@ const props = defineProps({
 <template>
   <div
     class="flex flex-col relative lg:px-6 w-[inherit] max-h-[70svh] sm:max-h-[99svh] lg:max-h-[65svh] overflow-y-scroll border-[var(--color-border)] rounded-lg">
+
     <table class="relative w-[inherit] h-full bg-[var(--color-background-mute)]">
       <thead class="sticky top-0 bg-[var(--table-header)]">
         <tr class="[&>*]:mx-auto [&>*]:lg:p-2 [&>*]:text-md [&>*]:font-light [&>*]:lg:font-bold [&>*]:text-center">
