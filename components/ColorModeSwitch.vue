@@ -8,7 +8,7 @@ defineProps({
 </script>
 
 <template>
-    <div class="rounded-xl flex justify-between px-4 lg:pr-8 w-full">
+    <div class="rounded-xl flex justify-between px-4 lg:px-8 w-full">
         <p class="text-sm italic font-thin">*
             figures shown in MYR
         </p>
