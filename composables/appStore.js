@@ -14,7 +14,7 @@ export const useMainStorePinia = defineStore('appStore', {
         isDesktop : (state)=> state.userScr.formFactor === 'Desktop|Laptop' ? true : false, 
         // does not mutate original state
     },
-    actions: {      // will mutate original state
+    actions: {      // function(); will mutate original state
         m_userScrW() { this.userScr.innerW = window.innerWidth },
         m_userScrH() { this.userScr.innerH = window.innerHeight },
         m_userScrFormFactor() { this.userScr.formFactor = getUserDeviceFormFactor() },
@@ -26,10 +26,11 @@ export const useMainStorePinia = defineStore('appStore', {
 })
 
 function getUserDeviceFormFactor() {
+    // CSS pixel breakpoint is set to 1024
     let orientation = window.screen.orientation.type
     if(
-        orientation==='portrait-primary' || 
-        orientation==='portrait-secondary'
+        orientation === 'portrait-primary' || 
+        orientation === 'portrait-secondary'
     ) {
         let ratio = window.screen.width / window.screen.height
         if(window.screen.height < 1024) {     // entering hand-held devices
@@ -73,11 +74,12 @@ function getIsDarkDeviceStatus() {
 }
 
 // // parent side codes
+// const appStore = useMainStorePinia()
 // function updateUserScreenPropertiesOnMounted() {   
 //     appStore.m_userScrW()
 //     appStore.m_userScrH()
 //     appStore.m_userScrFormFactor()
-//     appStore.m_userScrIsMobileLandscape()
+//     appStore.m_userScrIsMobileAndLandscape()
 //     appStore.m_userScrOrientation()
 //     appStore.m_userScrRatioWH()
 //     appStore.m_userScrIsDarkDevice()
@@ -86,3 +88,23 @@ function getIsDarkDeviceStatus() {
 //      use event listener at parent side 
 //      useEventListener('resize', ()=> { updateUserScreenPropertiesOnMounted() })
 //      useEventListener(window.matchMedia("(prefers-color-scheme:dark)"), 'change', ()=>{ updateUserScreenPropertiesOnMounted() })
+
+// export default defineNuxtConfig({
+//     devtools: { enabled: false },
+//     modules: [
+//       '@nuxtjs/tailwindcss',
+//       '@vueuse/nuxt',
+//       '@pinia/nuxt',  
+//     ],
+//     css: [
+//       '/assets/style.css',
+//     ],
+//     pinia: {
+//       autoImports: [
+//         // automatically imports `defineStore`
+//         'defineStore', // don't have to include import { defineStore } from 'pinia' anymore
+//         ['defineStore', 'definePiniaStore'], // import { defineStore as definePiniaStore } from 'pinia'
+//       ],
+//     },  
+// })
+  
