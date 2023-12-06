@@ -15,6 +15,7 @@ onMounted(async() => {
 
   records.value = records.value.reverse()
   console.log('app.vue mounted');
+  console.log(records.value);
   getHeight.value = `height:${window.innerHeight - 32}px;`
   updateUserScreenPropertiesOnMounted()
   useEventListener(window, 'resize', (event) => {
