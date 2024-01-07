@@ -1,34 +1,66 @@
 [
     {
-        "date": "29-06-2023",
+        "date": "01-01-2024",
+        "event": "New Year Day"
+    },
+    {
+        "date": "25-01-2024",
+        "event": "Thaipusam"
+    },
+    {
+        "date": "01-02-2024",
+        "event": "Federal Territory Day"
+    },
+    {
+        "date": "12-02-2024",
+        "event": "Observed Chinese New Year Holiday"
+    },
+    {
+        "date": "28-03-2024",
+        "event": "Nuzul Quran"
+    },
+    {
+        "date": "10-04-2024",
+        "event": "Hari Raya Aidilfitri"
+    },
+    {
+        "date": "11-04-2024",
+        "event": "Hari Raya Aidilfitri"
+    },
+    {
+        "date": "01-05-2024",
+        "event": "Labour Day"
+    },
+    {
+        "date": "22-05-2024",
+        "event": "Wesak Day"
+    },
+    {
+        "date": "03-06-2024",
+        "event": "Agong's Birthday"
+    },
+    {
+        "date": "17-06-2024",
         "event": "Hari Raya Haji"
     },
     {
-        "date": "19-07-2023",
+        "date": "07-07-2024",
         "event": "Awal Muharram"
     },
     {
-        "date": "31-08-2023",
+        "date": "31-08-2024",
         "event": "Merdeka Day"
     },
     {
-        "date": "16-09-2023",
+        "date": "16-09-2024",
         "event": "Malaysia Day"
     },
     {
-        "date": "12-11-2023",
-        "event": "Deepavali"
+        "date": "17-09-2024",
+        "event": "Observed Maulidur Rasul"
     },
     {
-        "date": "13-11-2023",
-        "event": "Deepavali observed"
-    },
-    {
-        "date": "25-12-2023",
+        "date": "25-12-2024",
         "event": "Christmas Day"
-    },
-    {
-        "date": "01-01-2024",
-        "event": "New Year Day"
     }
 ]
